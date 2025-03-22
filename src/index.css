@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme{
+    --color-myblue : #2D9CDB; /* Soft Blue (Main Theme)*/
+    --color-lightgreen : #27AE60; /* Light Green (Accent)*/
+    --color-softwhite : #F9FAFB; /* Soft White (Background)*/
+    --color-darkgray: #374151; /* Dark Gray (Text)*/
+    --color-mutedgray : #6B7280; /* Muted Gray (Subtext)*/
+    --color-deepblue: #1E3A8A; /* Deep Blue (Call-to-Action Buttons)*/
+    --color-brightcyan: #0EA5E9; /* Bright Cyan (Alternative Buttons)*/
+    --color-error: #E63946; 
+    --color-heading: #EEBF04;
+    /* Soft Red (Error States) */
+}

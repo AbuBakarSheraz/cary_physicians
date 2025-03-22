@@ -1,0 +1,1384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Welcome to Cary Physicians Primary Care, PLLC</title>
+  <meta name="description" content="We are dedicated to providing comprehensive primary care services for individuals and families in our community. Our team of experienced physicians, nurses, and healthcare professionals are committed to offering personalized, high-quality care to meet all your health needs.">
+  <meta name="keywords" content="Doctor, Physician, Primary care provider, Medicine, PCP, family doctor, Internal Medicine, Geriatrics, Preventive Care, Chronic Disease Management, Men's Health, Immunizations/Vaccinations, Health Screenings, Travel Medicine">
+  <meta name="author" content="Aftab Alam Khan">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <!-- Bootstrap -->
+  <link href="css/bootstrap-4.0.0.css" rel="stylesheet">
+  <!-- ecw styles for html structure -->
+  <link href="css/styles.css" rel="stylesheet">
+  <!-- ecw styles for practice branding -->
+  <link href="css/specific-styles.css" rel="stylesheet">
+  <!-- styles for material icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- styles for ion icons for social icons-->
+  <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+  <!-- Owl Stylesheets -->
+  <link rel="stylesheet" href="css/owl.carousel.min.css">
+  <link rel="stylesheet" href="css/owl.theme.default.min.css">
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script>
+    $(function () {
+      $("#p-tools li").click(function (e) {
+        e.preventDefault();
+        var DivID = $(this).find('a').attr('href');
+        var loadurl = $(this).attr('rel');
+        //alert(loadurl );
+        /*$.get(loadurl, function(data) {
+        $(DivID).html(data);
+        });*/
+      });
+    });
+    //code for iframe content
+    var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+    //newpostReq('https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/kiosk.html','checkin-content');
+    //newpostReq(http+'//cors-anywhere.herokuapp.com/https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/reminders.html','reminders-content');
+    //newpostReq(http+'//cors-anywhere.herokuapp.com/https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/televisit.html','virtual-visits');
+    //newpostReq(http+'//cors-anywhere.herokuapp.com/https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/healowmom.html','healow-mom');
+    //newpostReq(http+'//cors-anywhere.herokuapp.com/https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/healowkids.html','healow-kids');
+    //newpostReq(http+'//cors-anywhere.herokuapp.com/https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/faqs.html','faqs');
+    /*newpostReq(http+'online_access.html','online_access');
+    newpostReq(http+'faqs.html','faq');
+
+    newpostReq(http+'reminders.html','reminders');
+    newpostReq(http+'televisit.html','televisit_contents');*/
+    function newpostReq(url, id) {
+      var xmlhttp;
+      if (window.XDomainRequest) {
+        xmlhttp = new XDomainRequest();
+        xmlhttp.onload = function () {
+          document.getElementById(id).innerHTML = xmlhttp.responseText;
+        }
+      } else if (window.XMLHttpRequest) xmlhttp = new XMLHttpRequest();
+      else xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) document.getElementById(id).innerHTML = xmlhttp.responseText;
+      }
+      xmlhttp.open("GET", url, true);
+      xmlhttp.send();
+    }
+
+    $(window).scroll(function () {
+      if ($(this).scrollTop() > 50) {
+        $('div#primary-nav').addClass('sticky');
+      } else {
+        $('div#primary-nav').removeClass('sticky');
+      }
+    });
+
+    window.addEventListener("hashchange", function () {
+      window.scrollTo(window.scrollX, window.scrollY - 65);
+    });
+  </script>
+</head>
+
+<body data-spy="scroll" data-target="#navbar-primary" data-offset="150">
+  <a id="back-to-top"></a>
+  <a id="backtop"></a>
+  <div id="primary-nav" class="container-fluid nav-background-color">
+    <nav id="navbar-primary" class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand navbar-brand-color" href="#">
+        <img class="img-fluid main-logo" src="images/logo.webp" width="300" height="auto"
+          alt="Cary Physicians Primary Care, PLLC">
+      </a>
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul id="header-navbar" class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#backtop">Home <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li>
+            <span class="sep"></span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#practice-description">About Us
+            </a>
+          </li>
+          <li>
+            <span class="sep"></span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#patient-portal">Health Access</a>
+          </li>
+          <li>
+            <span class="sep"></span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#patient-tools">Patient Tools</a>
+          </li>
+          <li>
+            <span class="sep"></span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#faqs">FAQs</a>
+          </li>
+        </ul>
+        <div id="quick-action" class="btn-group " role="group" aria-label="Basic example">
+          <a href="https://link.clover.com/urlshortener/VKbGDj" target="_blank" class="btn qa-custom-btn ">
+            <i class="material-icons custom-material-style">monetization_on</i>Pay </a>
+          <!-- <a href="https://healow.com/apps/practice/fitchburg-podiatry-llc-30495?v=2&locale=en" target="_blank"
+            class="btn qa-custom-btn ">
+            <i class="material-icons custom-material-style">calendar_today</i>Book </a> -->
+          <a href="https://mycw243.ecwcloud.com/portal28343/jsp/100mp/login_otp.jsp" target="_blank"
+            class="btn qa-custom-btn ">
+            <i class="material-icons custom-material-style">open_in_browser</i>Login </a>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <!-- <div id="hero-section" class="container-fluid">
+    <div class="container">
+      <div id="hero-row-height" class="row align-items-center">
+        <div class="col-md-6">
+          <img src="images/hidpic.webp" width="1000" height="auto" alt=""
+            style="max-width: 420px;width: 100%;height:auto;border: 2px solid #7d7f7f;box-shadow: 0 0 5px black;visibility: hidden;">
+        </div>
+        <div id="hero-cta" class="col-md-6 text-md-right">
+          <h1 class="font-weight-normal text-light"> Empowering Your Health: Compassionate Care for Every Family in the Heart of Irving</h1>
+          <h3 class="font-weight-normal mt-3">
+            <a class="text-light" href="tel:919 230 7439">Call: 919 230 7439</a>
+          </h3>
+          <div class="mt-3 hero-btns">
+            <a href="https://mycw243.ecwcloud.com/portal28343/jsp/100mp/login_otp.jsp" target="_blank"
+              class="btn btn-md m-1 portal-button text-dark font-weight-normal">Patient Portal Login</a>
+            <button type="button" class="btn btn-md m-1 appointment-button" onclick="javascript:window.open('https://healow.com/apps/practice/fitchburg-podiatry-llc-30495?v=2&locale=en', '_blank');"
+            target="_blank">Book an Appointment</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <section>
+    <div class="hero-section">
+      <div id="owl-box1" class="owl-carousel owl-theme">
+        <div class="item">
+          <div style="background-image: url(images/hero-bg.webp); background-size: cover; background-position: center;"
+            class="position-relative w-100 hero-bg-height">
+            <div class="position-absolute text-white d-flex flex-column align-items-start justify-content-center"
+              style="top: 0; right: 0; bottom: 0; left: 0; background: linear-gradient(45deg, rgb(205 229 249 / 0%), rgb(17, 16, 16));">
+              <div class="container">
+                <div class="col-md-6 float-right">
+                  <!-- <span style="color: #bbb;" class="text-uppercase">Cary Physicians Primary Care, PLLC</span> -->
+                  <!-- on small screens remove display-4 -->
+                  <h1 class="mb-3 mt-2 font-weight-bold text-right"><span style="color: #eebf04;">Cary Physicians Primary Care, PLLC</span></h1>
+                  <h4 style="color: #fff; font-size: 18px; text-align: right; line-height: 1.7;">Dedicated to providing comprehensive primary care services for individuals and families in our community.
+                  </h4>
+                  <h3 class="font-weight-normal mt-3 text-right">
+                    <a class="text-light" href="tel:919 230 7439">Call: 919 230 7439</a>
+                  </h3>
+                  <div class="mt-3 hero-btns text-right">
+                    <a href="https://mycw243.ecwcloud.com/portal28343/jsp/100mp/login_otp.jsp" target="_blank"
+                      class="btn btn-md m-1 portal-button text-dark font-weight-normal">Patient Portal Login</a>
+                    <!-- <button type="button" class="btn btn-md m-1 appointment-button"
+                      onclick="javascript:window.open('https://healow.com/apps/practice/fitchburg-podiatry-llc-30495?v=2&locale=en', '_blank');"
+                      target="_blank">Book an Appointment</button> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="item">
+          <div
+            style="background-image: url(images/hero-bg-1.webp); background-size: cover; background-position: center;"
+            class="position-relative w-100 hero-bg-height">
+            <div class="position-absolute text-white d-flex flex-column align-items-start justify-content-center"
+              style="top: 0; right: 0; bottom: 0; left: 0; background-color: rgba(0,0,0,.5);">
+              <div class="container">
+                <div class="col-md-6">
+                  <h1 class="mb-3 mt-2 font-weight-bold text-left">Elixir <span style="color: #0872ba;">Telemedicine</span> Urgent Care</h1>
+                  <p style="color: #fff; font-size: 18px;">Your Health, Your Way—Affordable Virtual Urgent Care for All.</p>
+                  <h3 class="font-weight-normal mt-3">
+                    <a class="text-light" href="tel:919 230 7439">Call: 919 230 7439</a>
+                  </h3>
+                  <div class="mt-3 hero-btns">
+                    <a href="https://mycw243.ecwcloud.com/portal28343/jsp/100mp/login_otp.jsp" target="_blank"
+                      class="btn btn-md m-1 portal-button text-dark font-weight-normal">Patient Portal Login</a>
+                    <button type="button" class="btn btn-md m-1 appointment-button"
+                      onclick="javascript:window.open('https://healow.com/apps/practice/fitchburg-podiatry-llc-30495?v=2&locale=en', '_blank');"
+                      target="_blank">Book an Appointment</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </section>
+  <div id="imp-notice" class="container-fluid">
+    <div class="container">
+      <div class="row align-items-center">
+        <div id="important-notice" class="col-md-12 text-left">
+          <ul class="list-group">
+            <li class="list-group-item d-flex align-items-center">
+              <small>
+                <i class="material-icons">info</i> Please use messages for non-urgent communications only. If this is an
+                emergency, please call 911. </small>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="practice-description" class="container pt-5">
+    <div class="row">
+      <div id="practice-intro-content" class="col-md-7">
+        <p class="lead fs-22">About Us</p>
+        <p>At Cary Physicians Primary Care PLLC,  we provide comprehensive primary care services for individuals and families in our community. Our team of experienced physicians, nurses, and healthcare professionals are committed to offering personalized, high-quality care to meet all your health needs.</p>
+        <div class="row mt-3 mb-3">
+          <div class="col-md-12">
+            <div class="specialities-bx">
+              <p class="fs-20 mb-1 text-secondary">Accreditations</p>
+              <ul class="list-group list-group-flush mb-2">
+                <li class="list-group-item border-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> ABIM board certified
+                </li>
+              </ul>
+              <p class="fs-20 mt-3 mb-1 text-secondary">Specialities</p>
+              <ul class="list-group list-group-flush mb-2">
+                <li class="list-group-item border-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Internal Medicine
+                </li>
+                <li class="list-group-item border-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Primary Care
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row">
+          <div class="col-md-12">
+            <div class="specialities-bx">
+              <p class="fs-22 mb-1">Specialities</p>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item border-0 pl-0 pr-0 pt-1 pb-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Internal Medicine
+                </li>
+                <li class="list-group-item border-0 pl-0 pr-0 pb-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Cardiology
+                </li>
+                <li class="list-group-item border-0 pl-0 pr-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Stress testing/EKGs
+                </li>
+                <li class="list-group-item border-0 pl-0 pr-0 pt-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Infusion Therapy
+                </li>
+                <li class="list-group-item border-0 pl-0 pr-0 pt-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Laser Hair Removal
+                </li>
+                <li class="list-group-item border-0 pl-0 pr-0 pt-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Hair Restoration
+                </li>
+                <li class="list-group-item border-0 pl-0 pr-0 pt-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Facial Rejuvenation
+                </li>
+                <li class="list-group-item border-0 pl-0 pr-0 pt-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Botox
+                </li>
+                <li class="list-group-item border-0 pl-0 pr-0 pt-0">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Hormone Therapy
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div> -->
+        <!-- <p class="lead fs-22 mt-3 mb-0">Services We Offer</p> -->
+        <div class="services-tabs mt-3">
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="Primary-Care-tab" data-toggle="tab" href="#Primary-Care" role="tab"
+                aria-controls="Primary-Care" aria-selected="true">Our Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="why-choose-us-tab" data-toggle="tab" href="#why-choose-us" role="tab"
+                aria-controls="why-choose-us" aria-selected="false">Why Choose Us</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="Primary-Care" role="tabpanel" aria-labelledby="Primary-Care-tab">
+              <p class="mb-1 mt-2">Cary Physicians Primary care is dedicated to provide a wide range of services as
+              </p>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>General Primary Care
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i> Internal Medicine
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i> Geriatric
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Preventive Care
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Chronic Disease Management
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Mental Health Support
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Immunizations/Vaccinations
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Health Screening
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Nutrition and Dietary Guidance
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Sports Medicine
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Travel Medicine
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Immigration Health Examination
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- <p> <strong>NOTE:</strong> *based on telemedicine visit, our medical provider may determine that you need to be seen in person for additional evaluation. If so, you will be referred to a nearby urgent care clinic or emergency department. **We do not prescribe DEA-controlled medications including: narcotics (percocet); ADHD-stimulant medications, and anti-anxiety benzodiazepine. Lifestyles medications (such as medication for erectile dysfunction [ED] or hair loss). We do not prescribe controlled substances for weight loss (e.g. phentermine); detox medications (e.g. Suboxone Methadone); nor medications intended for intramuscular injections; nor sleep medications.</p> -->
+            </div>
+            <div class="tab-pane fade" id="why-choose-us" role="tabpanel" aria-labelledby="why-choose-us-tab">
+              <!-- <p class="mb-0">Telehealth providing patient by Certified Family Nurse Practitioner through access from a computer, tablet or smartphone.
+              </p> -->
+              <div class="row mb-3">
+                <div class="col-md-12">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Compassionate and patient-centered care
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Convenient online appointment scheduling
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Same-day appointments available
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Comprehensive health management
+                    </li>
+                    <li class="list-group-item border-0 ">
+                      <i class="material-icons custom-material-style">arrow_forward</i>Dedicated to your long-term well-being
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <!-- <p> <strong>NOTE:</strong> *based on telemedicine visit, our medical provider may determine that you need to be seen in person for additional evaluation. If so, you will be referred to a nearby urgent care clinic or emergency department. **We do not prescribe DEA-controlled medications including: narcotics (percocet); ADHD-stimulant medications, and anti-anxiety benzodiazepine. Lifestyles medications (such as medication for erectile dysfunction [ED] or hair loss). We do not prescribe controlled substances for weight loss (e.g. phentermine); detox medications (e.g. Suboxone Methadone); nor medications intended for intramuscular injections; nor sleep medications.</p> -->
+            </div>
+          </div>
+        </div>
+        <div class="images-video-tabs mb-3">
+          <ul class="nav nav-tabs" id="practice-images" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="images-tab" data-toggle="tab" href="#practice-images-gallery" role="tab"
+                aria-controls="practice-images" aria-selected="true">Our Photos</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent2">
+            <div class="tab-pane fade show active" id="practice-images-gallery" role="tabpanel"
+              aria-labelledby="practice-images">
+              <div id="owl-box2" class="owl-carousel owl-theme">
+                <div class="item">
+                  <a href="#" data-toggle="modal" data-target="#myModal1">
+                    <img class="img-fluid img-thumbnail" src="images/our-photos/practice1.webp" width="712" height="400"
+                      alt="" />
+                    <!-- <h5 class="p-2 mb-0 fs-18">Back Pain</h5> -->
+                  </a>
+                </div>
+                <div class="item">
+                  <a href="#" data-toggle="modal" data-target="#myModal2">
+                    <img class="img-fluid img-thumbnail" src="images/our-photos/practice2.webp" width="712" height="400"
+                      alt="" />
+                    <!-- <h5 class="p-2 mb-0 fs-18">CRPS</h5> -->
+                  </a>
+                </div>
+                <div class="item">
+                  <a href="#" data-toggle="modal" data-target="#myModal3">
+                    <img class="img-fluid img-thumbnail" src="images/our-photos/practice3.webp" width="712" height="400"
+                      alt="" />
+                    <!-- <h5 class="p-2 mb-0 fs-18">CRPS</h5> -->
+                  </a>
+                </div>
+                <div class="item">
+                  <a href="#" data-toggle="modal" data-target="#myModal4">
+                    <img class="img-fluid img-thumbnail" src="images/our-photos/practice4.webp" width="712" height="400"
+                      alt="" />
+                    <!-- <h5 class="p-2 mb-0 fs-18">CRPS</h5> -->
+                  </a>
+                </div>
+                <div class="item">
+                  <a href="#" data-toggle="modal" data-target="#myModal5">
+                    <img class="img-fluid img-thumbnail" src="images/our-photos/practice5.webp" width="712" height="400"
+                      alt="" />
+                    <!-- <h5 class="p-2 mb-0 fs-18">CRPS</h5> -->
+                  </a>
+                </div>
+                <div class="item">
+                  <a href="#" data-toggle="modal" data-target="#myModal6">
+                    <img class="img-fluid img-thumbnail" src="images/our-photos/practice6.webp" width="712" height="400"
+                      alt="" />
+                    <!-- <h5 class="p-2 mb-0 fs-18">CRPS</h5> -->
+                  </a>
+                </div>
+              </div>
+              <!-- The Modal -->
+              <div class="modal" id="myModal1">
+                <div class="modal-dialog ">
+                  <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <img class="img-fluid" src="images/our-photos/practice1.webp" width="712" height="400" alt="" />
+                      <!-- <h5 class="p-2 mb-0 fs-22 text-center">Back Pain</h5> -->
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-modal-custom" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal" id="myModal2">
+                <div class="modal-dialog ">
+                  <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <img class="img-fluid" src="images/our-photos/practice2.webp" width="712" height="400" alt="" />
+                      <!-- <h5 class="p-2 mb-0 fs-22 text-center">CRPS</h5> -->
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-modal-custom" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal" id="myModal3">
+                <div class="modal-dialog ">
+                  <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <img class="img-fluid" src="images/our-photos/practice3.webp" width="712" height="400" alt="" />
+                      <!-- <h5 class="p-2 mb-0 fs-22 text-center">CRPS</h5> -->
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-modal-custom" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal" id="myModal4">
+                <div class="modal-dialog ">
+                  <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <img class="img-fluid" src="images/our-photos/practice4.webp" width="712" height="400" alt="" />
+                      <!-- <h5 class="p-2 mb-0 fs-22 text-center">CRPS</h5> -->
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-modal-custom" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal" id="myModal5">
+                <div class="modal-dialog ">
+                  <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <img class="img-fluid" src="images/our-photos/practice5.webp" width="712" height="400" alt="" />
+                      <!-- <h5 class="p-2 mb-0 fs-22 text-center">CRPS</h5> -->
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-modal-custom" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal" id="myModal6">
+                <div class="modal-dialog ">
+                  <div class="modal-content">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <img class="img-fluid" src="images/our-photos/practice6.webp" width="712" height="400" alt="" />
+                      <!-- <h5 class="p-2 mb-0 fs-22 text-center">CRPS</h5> -->
+                    </div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-modal-custom" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Modal popup ends-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="local-panel">
+          <div id="map">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3111.718179989672!2d-78.76881132436219!3d35.745623472566606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89acf3489455e797%3A0x2b1c65e21189b160!2s115%20Parkway%20Office%20Ct%20Suite%20104%2C%20Cary%2C%20NC%2027518%2C%20USA!5e1!3m2!1sen!2sin!4v1738675828174!5m2!1sen!2sin" width="100%" height="auto" frameborder="0" style="border:0" allowfullscreen></iframe>
+          </div>
+          <h4 class="font-weight-normal mt-3">Cary Physicians Primary Care, PLLC</h4>
+          <p>Compassionate Care, Exceptional Results</p>
+          <!-- <p id="local-meet-doctors" class="mt-2">
+            <a class="link-underline" href="https://healow.com/apps/provider/mary-hickner-3437285" target="_blank">Meet
+              Our Providers</a>
+            <i class="material-icons">link</i>
+          </p> -->
+          <p id="local-meet-address pb-0 mb-0">
+            <span class="font-weight-bold">Address:</span> 115 Parkway Office Ct, suite 104, Cary NC, 27518
+          </p>
+          <p id="local-meet-phone pb-0">
+            <span class="font-weight-bold">Phone:</span> <a class="custom-link-light" href="tel:919 230 7439">919 230 7439            </a>
+          </p>
+          <p id="local-meet-phone pb-0">
+            <span class="font-weight-bold">Fax:</span> <a class="custom-link-light"
+              href="fax:1 855 576 4929">1 855 576 4929</a>
+          </p>
+          <div id="cta-call-email pb-0" class="row">
+            <div class="col-md-12">
+              <p>
+                <i class="material-icons custom-material-style">email</i>
+                <a class="link-underline" href="mailto:office@caryphysicians.com"
+                  target="_blank">office@caryphysicians.com</a>
+              </p>
+            </div>
+          </div>
+          <table id="local-office-hours" class="table table-borderless table-sm mb-4">
+            <thead>
+              <tr>
+                <th colspan="2"> Office Hours </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">Monday </td>
+                <td>9:00 AM to 5:00 PM</td>
+              </tr>
+              <tr>
+                <td scope="row">Tuesday </td>
+                <td>9:00 AM to 5:00 PM</td>
+              </tr>
+              <tr>
+                <td scope="row">Wednesday </td>
+                <td>9:00 AM to 5:00 PM</td>
+              </tr>
+              <tr>
+                <td scope="row">Thursday </td>
+                <td>9:00 AM to 5:00 PM</td>
+              </tr>
+              <tr>
+                <td scope="row">Friday </td>
+                <td>9:00 AM to 5:00 PM</td>
+              </tr>
+              <!-- <tr>
+                <td scope="row">Sat & Sun </td>
+                <td class="text-primary">Closed</td>
+              </tr> -->
+              <tr>
+                <td scope="row">Saturday </td>
+                <td>10:00 AM to 2:00 PM</td>
+              </tr>
+              <tr>
+                <td scope="row">Sunday </td>
+                <td>Closed</td>
+              </tr>
+            </tbody>
+          </table>
+          <div id="local-socials">
+            <p class="mt-5;">
+              <strong>Connect on Social Media</strong>
+            </p>
+            <a href="https://www.facebook.com/profile.php?id=61568347179500" target="_blank">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </a>
+            <!-- <a href="#" target="_blank">
+              <ion-icon name="logo-twitter"></ion-icon>
+            </a> -->
+            <a href="https://www.instagram.com/cary_physicians?igsh=YzljYTk1ODg3Zg==" target="_blank">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+            <!-- <a href="https://www.linkedin.com/" target="_blank">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a> -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div id="meet-doctor" class="container-fluid mb-0 mt-4" style="background: #EFEFF1;">
+    <div class="container pt-5 pb-5">
+      <div class="row ">
+        <div class="col-md-12 m-auto">
+          <h4 class="font-weight-normal mb-3">About Provider</h4>
+          <div class="row">
+            <div class="col-md-4">
+              <img class="img-fluid" src="images/DocPicture.webp" width="537" height="auto" alt="Dr. Muhammad A Ghani, MD">
+              <div class="doc-img-caption text-center">
+                <h5 class="fs-18">
+                  <i>
+                    <strong>Dr. Muhammad A Ghani, MD</strong>
+                  </i>
+                </h5>
+                <!-- <p class="mb-0">I am male, speaks English, Urdu, Hindi, Punjabi, and provide care to Adults Only.</p> -->
+              </div>
+            </div>
+            <div class="col-md-8">
+              <h5 class="mb-3">Dr. Muhammad A Ghani, MD</h5>
+              <h6>My Philosophy of Care</h6>
+              <p>My philosophy of care revolves in balancing evidence based scientific research with the realities of patient lives, to make perfect, best health care for every patient. I encourage patients to make early healthy choices and preventive care now to avoid larger problems later. I also want patients to understand their own health issues well, so that they are better equipped to make informed decisions about their care. My 15 years of experience working in hospital treating patients, give me crucial knowledge for your medical needs. I look forward to being your adviser to lead a healthy happy life.</p>
+              <h6>More About Me</h6>
+              <p>I was born in Pakistan and spent my high school and college years attending Nishtar Medical University Multan and then post-graduation in King Edward Medical University, Lahore, Pakistan. I then pursued my Internal Medicine Residency Training from the University of Tennessee Health Science Center Memphis, Tennessee. While there, I was involved in studies on inpatient hospital medicine.</p>
+              <p>After completing my training, I started my career as traditional medicine with primary care and inpatient hospital medicine in Scotland Memorial Hospital/Scotland Medical Center for 3 years. After that in perused working as an inpatient hospital medicine in UNC Nash Healthcare system and then UNC Rex healthcare.
+              <b>I enjoy both hospital work and outpatient preventative care.</b></p>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <div class="mission-vision provider-education">
+                <h6 class="font-weight-bold">Training & Education</h6>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item border-0 ">
+                    <i class="material-icons custom-material-style">arrow_forward</i> <b>Medical School:</b> Nishtar Medical University, Multan Pakistan
+                  </li>
+                  <li class="list-group-item border-0 ">
+                    <i class="material-icons custom-material-style">arrow_forward</i> <b>Residency:</b> University of Tennessee Health Science Center, Memphis TN
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mission-vision">
+                <h6 class="font-weight-bold mt-3">Board Certification: </h6>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item border-0 ">
+                    <i class="material-icons custom-material-style">arrow_forward</i> Internal Medicine - Board Certified
+                  </li>
+                </ul>
+                <h6 class="font-weight-bold mt-3">Languages:</h6>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item border-0 ">
+                    <i class="material-icons custom-material-style">arrow_forward</i>English, Urdu, Hindi, Punjabi
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mission-vision">
+                <h6 class="font-weight-bold">My Experience:</h6>
+                <p class="mb-0">Primary and Hospital Internal Medicine at </p>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item border-0 ">
+                    <i class="material-icons custom-material-style">arrow_forward</i> Scotland Medical Center/Scotland Memorial Hospital, Laurinburg NC
+                  </li>
+                  <li class="list-group-item border-0 ">
+                    <i class="material-icons custom-material-style">arrow_forward</i> UNC Nash Healthcare System, Rocky Mount, NC
+                  </li>
+                  <li class="list-group-item border-0 ">
+                    <i class="material-icons custom-material-style">arrow_forward</i> UNC Rex Healthcare Center, Raleigh, Holy Spring NC
+                  </li>
+                  <li class="list-group-item border-0 ">
+                    <i class="material-icons custom-material-style">arrow_forward</i> North Carolina Specialty Hospital, Durham
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="insurance-nearby-location" class="container-fluid mb-0">
+    <div class="container">
+      <div class="row pt-5 pb-5">
+        <div class="col-md-12">
+          <div id="insurance-provider-header ">
+            <h4 class="font-weight-normal mb-3 text-light">Insurances Accepted </h4>
+          </div>
+          <div id="insurance-providers" class="row">
+            <div class="col-md-4">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i> Aetna
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Ambetter of North Carolina
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Ameri Health Caritas
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>APWU
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>BankersLife
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>BCBS (NC)
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Carolina Complete health
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Cigna
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Cigna Health Spring
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Humana
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Medcost
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Medicaid
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Medicare
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Molina
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-4">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Multiplan
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>RR Medicare
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Tricare East
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Tricare For Life
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>UHC
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>United American Ins Company
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">arrow_forward</i>Wellcare
+                </li>
+              </ul>
+            </div>
+            <p class="text-white mb-0 fs-16 text-center p-3">All primary care and same day appointments.</p>
+            <p class="text-white mb-0 fs-16 text-center p-3">Most insurances have multiple variations so please call
+              your insurance to confirm if we are in-network.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <section id="testimonials" class="container-fluid pt-5 pb-5">
+    <div class="container">
+      <div class="row">
+        <h4 class="font-weight-normal mb-3">Testimonials</h4>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div id="carouselTestimonialIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carouselTestimonialIndicators" data-slide-to="0" class=""></li>
+              <li data-target="#carouselTestimonialIndicators" data-slide-to="1" class="active"></li>
+              <li data-target="#carouselTestimonialIndicators" data-slide-to="2" class=""></li>
+              <li data-target="#carouselTestimonialIndicators" data-slide-to="3" class=""></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item">
+                <div class="row">
+                  <div class="col-md-8">
+                    <p class="testimonial-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur natus adipisci quis tenetur magni rerum illum vitae, quas animi ullam possimus qui dignissimos facilis, reiciendis doloribus culpa saepe voluptate molestiae!
+                    </p>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="ratings">
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                    </div>
+                    <p class="testimonial-detail mt-2">
+                      <span class="testimonial-name">Yesenia G.</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item active">
+                <div class="row">
+                  <div class="col-md-8">
+                    <p class="testimonial-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur natus adipisci quis tenetur magni rerum illum vitae, quas animi ullam possimus qui dignissimos facilis, reiciendis doloribus culpa saepe voluptate molestiae!
+                    </p>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="ratings">
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                    </div>
+                    <p class="testimonial-detail mt-2">
+                      <span class="testimonial-name">Esther F.</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="row">
+                  <div class="col-md-8">
+                    <p class="testimonial-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur natus adipisci quis tenetur magni rerum illum vitae, quas animi ullam possimus qui dignissimos facilis, reiciendis doloribus culpa saepe voluptate molestiae!
+                    </p>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="ratings">
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                    </div>
+                    <p class="testimonial-detail mt-2">
+                      <span class="testimonial-name">Cinna N.</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="carousel-item">
+                <div class="row">
+                  <div class="col-md-8">
+                    <p class="testimonial-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur natus adipisci quis tenetur magni rerum illum vitae, quas animi ullam possimus qui dignissimos facilis, reiciendis doloribus culpa saepe voluptate molestiae!
+                    </p>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="ratings">
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                      <i class="material-icons star">stars</i>
+                    </div>
+                    <p class="testimonial-detail mt-2">
+                      <span class="testimonial-name">Veronica R.</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+  <!-- <div id="Q-and-A" class="container-fluid mb-0">
+    <div class="container pt-5 pb-5">
+      <div class="row ">
+        <div class="col-md-12">
+          <h4 class="font-weight-normal mb-3 text-center">Conditions and Services Q &amp; A</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="faq-tabs mt-2">
+            <div id="accordion">
+              <div class="card">
+                <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#collapseOne"
+                  aria-expanded="true" aria-controls="collapseOne">
+                  <h5 class="mb-0 fs-18">
+                     Will I be prescribed pain medication?
+
+                  </h5>
+                </div>
+                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion" style="">
+                  <div class="card-body">
+                    <p>Every case is unique and your doctor will determine if oral medication is appropriate for your
+                      treatment plan.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo"
+                  aria-expanded="false" aria-controls="collapseTwo">
+                  <h5 class="mb-0 fs-18">
+                     Am I a candidate for an injection?
+                  </h5>
+                </div>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                  <div class="card-body">
+                    <p>Your doctor will evaluate you to determine the best treatment plan.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="headingThree" data-toggle="collapse" data-target="#collapseThree"
+                  aria-expanded="false" aria-controls="collapseThree">
+                  <h5 class="mb-0 fs-18">
+                    Do I need to fast for my procedure?
+                  </h5>
+                </div>
+                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                  <div class="card-body">
+                    <p>Your provider will determine if you need to fast for your procedure, but in general we request
+                      patients fast prior to procedures.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="heading4" data-toggle="collapse" data-target="#collapse4"
+                  aria-expanded="false" aria-controls="collapse4">
+                  <h5 class="mb-0 fs-18">
+                    Are spine injections painful?
+                  </h5>
+                </div>
+                <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordion">
+                  <div class="card-body">
+                    <p>Everyone’s pain tolerance is different. Your doctor will inject numbing medication to help block
+                      pain and will talk you through the entire procedure both before and during the injection.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="heading5" data-toggle="collapse" data-target="#collapse5"
+                  aria-expanded="false" aria-controls="collapse5">
+                  <h5 class="mb-0 fs-18">
+                    Will I need sedation for the procedure?
+                  </h5>
+                </div>
+                <div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#accordion">
+                  <div class="card-body">
+                    <p>Your physician will discuss the need for sedation with you, but in general injections can be
+                      performed with the use of local anesthetics without the need for sedation.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="heading6" data-toggle="collapse" data-target="#collapse6"
+                  aria-expanded="false" aria-controls="collapse6">
+                  <h5 class="mb-0 fs-18">
+                    Will I need someone to take me home after my
+                      procedure?
+                  </h5>
+                </div>
+                <div id="collapse6" class="collapse" aria-labelledby="heading6" data-parent="#accordion">
+                  <div class="card-body">
+                    <p>Your doctor will advise if you need a driver to take you home after a procedure.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="faq-tabs mt-2">
+            <div id="accordion2">
+              <div class="card">
+                <div class="card-header" id="heading7" data-toggle="collapse" data-target="#collapse7"
+                  aria-expanded="true" aria-controls="collapse7">
+                  <h5 class="mb-0 fs-18">
+                    What is conservative treatment?
+                  </h5>
+                </div>
+                <div id="collapse7" class="collapse show" aria-labelledby="heading7" data-parent="#accordion2">
+                  <div class="card-body">
+                    <p>Conservative treatment consists of non-surgical treatment for your pain. This can include oral
+                      medications, physical therapy, exercise plans, and injections.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="heading8" data-toggle="collapse" data-target="#collapse8"
+                  aria-expanded="false" aria-controls="collapse8">
+                  <h5 class="mb-0 fs-18">
+                    Will I need back surgery?
+                  </h5>
+                </div>
+                <div id="collapse8" class="collapse" aria-labelledby="heading8" data-parent="#accordion2">
+                  <div class="card-body">
+                    <p>Depending on the issue, your doctor can help determine if you require surgery or can be treated
+                      conservatively.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="heading9" data-toggle="collapse" data-target="#collapse9"
+                  aria-expanded="false" aria-controls="collapse9">
+                  <h5 class="mb-0 fs-18">
+                    Why does my doctor say that pain in my arms and legs is
+                      coming from my spine?
+                  </h5>
+                </div>
+                <div id="collapse9" class="collapse" aria-labelledby="heading9" data-parent="#accordion2">
+                  <div class="card-body">
+                    <p>Because the nerves which give sensation to the arms and legs come from the spine, compression of
+                      these nerves at the level of the spine can cause pain in the extremities.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="heading10" data-toggle="collapse" data-target="#collapse10"
+                  aria-expanded="false" aria-controls="collapse10">
+                  <h5 class="mb-0 fs-18">
+                    How do I schedule an appointment?
+                  </h5>
+                </div>
+                <div id="collapse10" class="collapse" aria-labelledby="heading10" data-parent="#accordion2">
+                  <div class="card-body">
+                    <p>You can schedule an appointment online or by calling the office.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header" id="heading11" data-toggle="collapse" data-target="#collapse11"
+                  aria-expanded="false" aria-controls="collapse11">
+                  <h5 class="mb-0 fs-18">
+                    Will I need imaging?
+                  </h5>
+                </div>
+                <div id="collapse11" class="collapse" aria-labelledby="heading11" data-parent="#accordion2">
+                  <div class="card-body">
+                    <p>Your doctor will determine if an imaging study is required to assist with your treatment. If you already have imaging, please bring the report and a disc with the images to your appointment.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <section id="patient-portal" class="container-fluid pt-5 pb-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <img class="img-fluid mb-3"
+            src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/portal.png"
+            alt="patient portal" />
+        </div>
+        <div class="col-md-7">
+          <h4 class="font-weight-normal">Our Patient Portal gives you secure online access to your health information
+          </h4>
+          <p>Patient Portal is a secure, convenient, and easy-to-use website that gives you round-the-clock access to
+            your health information. View labs, medications, and immunization records. Get reminders. Exchange messages
+            with your doctor. Stay informed and take charge of your health!</p>
+          <div id="portal-features" class="row">
+            <div class="col-md-12">
+              <h6>Here’s what you can do with our portal</h6>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">check</i>View lab results
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">check</i>Send &amp; receive messages securely
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">check</i>Access health records
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">check</i>Book appointments online
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">check</i>Get statements and receipts online
+                </li>
+                <li class="list-group-item border-0 ">
+                  <i class="material-icons custom-material-style">check</i>View doctors’ notes
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card portal-cta p-0">
+            <div class="card-body ">
+              <a href="https://mycw243.ecwcloud.com/portal28343/jsp/100mp/login_otp.jsp"
+                class="btn btn-block portal-button btn-md text-dark" target="_blank">Patient Portal Login </a>
+              <p class="card-text">
+                <small>Need help logging in? Call us at <a href="tel:919 230 7439">919 230 7439</a>
+                </small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="healow-app" class="container-fluid pt-5 pb-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-7">
+          <h4 class="font-weight-normal mt-3">Online health access on your smartphone</h4>
+          <p>Access your health record with the healow <sup>
+              <small>TM</small>
+            </sup> smartphone app. Along with the features you get with our Patient Portal, the healow app can manage
+            multiple accounts (all family members), set medication and appointment reminders, and use trackers to help
+            manage health. The healow app is a secure and convenient way to manage what’s important and puts YOU in
+            control of your health. </p>
+          <p>healow is available free on the <a href="https://goo.gl/LhQBBk" target="_blank">Apple app store</a> and <a
+              href="https://goo.gl/vssCoR" target="_blank">Google Play store</a>. </p>
+          <div class="card stores-cta p-0 mt-4 mb-3">
+            <div class="card-body text-white">
+              <h6>Download free healow smartphone app</h6>
+              <a href="https://goo.gl/LhQBBk" target="_blank">
+                <img class="m-1"
+                  src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/app_store_button.png"
+                  width="135" height="40" alt="App Store" />
+              </a>
+              <a href="https://goo.gl/vssCoR" target="_blank">
+                <img class="m-1"
+                  src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/play_store_button.png"
+                  width="135" height="40" alt="Play Store" />
+              </a>
+              <p class="card-text">
+                <small>To learn more about healow, <a href="https://healow.com/healowHomeRedirect.jsp" target="_blank">click here</a>
+                </small>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5">
+          <img class="img-fluid"
+          src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/healow-image.jpg"
+          width="394" height="328" alt="healow app" />
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="healow-steps" class="container-fluid pt-2 pb-5">
+    <div class="container">
+      <h4 class="font-weight-normal mt-3 mb-5 text-center"> Set up the healow smartphone app in four easy steps! </h4>
+      <div class="row">
+        <div class="col-md-5 offset-md-1">
+          <img class="step-icon-padding float-left mr-3 ml-3"
+            src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/icon_step1.png"
+            width="75" height="75" alt="" />
+          <img src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/step1.png"
+            width="67" height="26" alt="" />
+          <p>Download the healow app from App Store (iPhone) or Google Play (Android Phone).</p>
+        </div>
+        <div class="col-md-5">
+          <img class="step-icon-padding float-left mr-3 ml-3"
+            src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/icon_step2.png"
+            width="75" height="75" alt="" />
+          <img src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/step2.png"
+            width="67" height="26" alt="" />
+          <p>Search for our practice by entering this unique code on the healow app - <strong>GFAHDD</strong>. </p>
+        </div>
+      </div>
+      <div class="row steps-row-2">
+        <div class="col-md-5 offset-md-1">
+          <img class="step-icon-padding float-left mr-3 ml-3"
+            src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/icon_step3.png"
+            width="75" height="75" alt="" />
+          <img src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/step3.png"
+            width="67" height="26" alt="" />
+          <p>Enter your portal username and password. <br>
+            <br>
+          </p>
+        </div>
+        <div class="col-md-5">
+          <img class="step-icon-padding float-left mr-3 ml-3"
+            src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/icon_step4.png"
+            width="75" height="75" alt="" />
+          <img src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/images/step4.png"
+            width="67" height="26" alt="" />
+          <p>Set up your PIN to securely access your health record. <br>
+            <br>
+          </p>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-4 offset-md-2 practice-code justify-content-center d-flex align-items-center">
+          <p class="mt-2 mb-2 ml-4 mr-4">Use this unique code to search our practice on the healow app</p>
+        </div>
+        <div class="col-md-4 practice-code practice-code-bg text-center p-2">
+          <h6 class="font-weight-normal">Practice Unique Code</h6>
+          <span class="code">GFAHDD</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="patient-tools" class="container-fluid">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="patient-tools-tab mt-2">
+            <h4 class="font-weight-normal mt-3 mb-4 text-center">Tools for Patients’ Convenience</h4>
+            <ul class="nav nav-tabs justify-content-center" id="p-tools" role="tablist">
+              <li class="nav-item" rel='kiosk.html'>
+                <a class="nav-link active" id="check-in" data-toggle="tab" href="#checkin-content" role="tab"
+                  aria-controls="home" aria-selected="true">Easy Check-in</a>
+              </li>
+              <li class="nav-item" rel='reminders.html'>
+                <a class="nav-link" id="Reminders" data-toggle="tab" href="#reminders-content" role="tab"
+                  aria-controls="profile" aria-selected="false">Reminders &amp;
+                  Notifications</a>
+              </li>
+
+              <li class="nav-item" rel='televisit.html'>
+                <a class="nav-link" id="Visits" data-toggle="tab" href="#virtual-visits" role="tab"
+                  aria-controls="profile" aria-selected="false">Virtual Visits</a>
+              </li>
+              <!-- <li class="nav-item" rel='healowmom.html'>
+                <a class="nav-link" id="mom" data-toggle="tab" href="#healow-mom" role="tab" aria-controls="profile"
+                  aria-selected="false">healow Mom app</a>
+              </li>
+              <li class="nav-item" rel='healowkids.html'>
+                <a class="nav-link" id="kids" data-toggle="tab" href="#healow-kids" role="tab" aria-controls="profile"
+                  aria-selected="false">healow Kids app</a>
+              </li> -->
+
+
+            </ul>
+            <div class="tab-content p-4" id="p-tools-Content">
+              <div class="tab-pane fade show active" id="checkin-content" role="tabpanel" aria-labelledby="home-tab"
+                style="height:100%;">
+                <iframe class="mgdiframe-checkin" id="i-checkin-content"
+                  src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/kiosk.html"
+                  frameborder="0" scrolling="no" width="100%" height="100%"
+                  onload="resizeIframe('i-checkin-content')"></iframe>
+              </div>
+              <div class="tab-pane fade" id="reminders-content" role="tabpanel" aria-labelledby="profile-tab">
+                <iframe class="mgdiframe-reminders" id="i-reminders-content"
+                  src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/reminders.html"
+                  frameborder="0" scrolling="no" width="100%" height="auto"
+                  onload="resizeIframe('i-reminders-content')"></iframe>
+              </div>
+
+              <div class="tab-pane fade" id="virtual-visits" role="tabpanel" aria-labelledby="virtual-visits-tab">
+                <iframe class="mgdiframe-visits" id="i-virtual-visits"
+                  src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/televisit.html"
+                  frameborder="0" scrolling="no" width="100%" height="auto"
+                  onload="resizeIframe('i-virtual-visits')"></iframe>
+              </div>
+              <!-- <div class="tab-pane fade" id="healow-mom" role="tabpanel" aria-labelledby="profile-tab">
+                <iframe class="mgdiframe-mom" id="i-healow-mom"
+                  src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/healowmom.html"
+                  frameborder="0" scrolling="no" width="100%" height="auto"
+                  onload="resizeIframe('i-healow-mom')"></iframe>
+              </div>
+              <div class="tab-pane fade" id="healow-kids" role="tabpanel" aria-labelledby="profile-tab">
+                <iframe class="mgdiframe-kids" id="i-healow-kids"
+                  src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/healowkids.html"
+                  frameborder="0" scrolling="no" width="100%" height="auto"
+                  onload="resizeIframe('i-healow-kids')"></iframe>
+              </div> -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="faqs" class="container-fluid mb-5">
+    <iframe class="mgdiframe-faqs" id="i-faqs"
+      src="https://mgdportal.eclinicalweb.com/portalNew/jsp/PP_Interim_Page/new-pp-local/faqs.html" frameborder="0"
+      scrolling="yes" width="100%" height="auto" onload="resizeIframe('i-faqs')"></iframe>
+  </section>
+  
+  <section id="footer" class="container-fluid ">
+    <div class="container pt-5 pb-5">
+      <div class="row">
+        <div class="col-md-4 footer-link">
+          <ul class="list-group list-group-flush footer-nav">
+            <li class="list-group-item border-0 ">
+              <a href="#backtop">Home</a>
+            </li>
+            <li class="list-group-item border-0">
+              <a href="#practice-description">About Us</a>
+            </li>
+            <li class="list-group-item border-0 ">
+              <a href="#practice-intro-content">Services</a>
+            </li>
+            <li class="list-group-item border-0 ">
+              <a href="#patient-tools">Patient Tools</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4 footer-link">
+          <ul class="list-group list-group-flush footer-nav">
+            <li class="list-group-item border-0 ">
+              <a href="#testimonials">Testimonials</a>
+            </li>
+            <li class="list-group-item border-0 ">
+              <a href="#faqs">FAQ's</a>
+            </li>
+            <li class="list-group-item border-0 ">
+              <a href="#practice-description">Contact Us</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h6 class="footer-name font-weight-bold">Cary Physicians Primary Care, PLLC</h6>
+          <p>115 Parkway Office Ct, suite 104, Cary NC, 27518<br>
+            <b>Phone:</b> <a class="custom-link-light" href="tel:919 230 7439">919 230 7439</a><br>
+            <b>Fax:</b> <a class="custom-link-light" href="fax:1 855 576 4929">1 855 576 4929</a><br>
+            <b>Email:</b> <a class="custom-link-light"
+              href="mailto:office@caryphysicians.com">office@caryphysicians.com</a><br>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-right">
+          <small>Powered by <a class="custom-link-light" href="https://healow.com" target="_blank">
+              <u>healow</u>
+            </a>
+          </small>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins)
+  <script src="js/jquery-3.2.1.min.js"></script> -->
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap-4.0.0.js"></script>
+  <script src="js/owl.carousel.js"></script>
+  <script src="js/custom-js.js"></script>
+</body>
+
+</html>
