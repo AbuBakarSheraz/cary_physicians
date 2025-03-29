@@ -1,4 +1,4 @@
-import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Helmet } from "react-helmet";
 import React from "react";
 'use server';
 
@@ -11,7 +11,6 @@ export default function InsuranceList() {
   return (
     <>
       {/* SEO Meta Tags */}
-      <HelmetProvider>
       <Helmet>
         {/* <title>Accepted Insurance Providers | Our Clinic</title> */}
         <meta name="description" content="We accept various insurance providers including Cigna, Humana, Medicare, Medicaid, and more. Call us to confirm if we are in-network." />
@@ -35,7 +34,6 @@ export default function InsuranceList() {
           }}
         />
       </Helmet>
-      </HelmetProvider>
 
       {/* Insurance List Section */}
       <section className="bg-gradient-to-b from-gray-900 to-gray-800 text-white py-16">

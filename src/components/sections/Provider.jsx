@@ -1,19 +1,17 @@
 import React from "react";
 import docpic from '../../assets/images/DocPicture.webp';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 'use server';
 
 const AboutProvider = () => {
   return (
     <>
-     <HelmetProvider>
       <Helmet>
         {/* <title>Dr. Muhammad A Ghani, MD - Board Certified Internal Medicine | Cary Physicians</title> */}
         <meta name="description" content="Meet Dr. Muhammad A Ghani, MD, a board-certified internal medicine physician with 15+ years of experience. Providing compassionate care in Cary, NC." />
         <meta name="keywords" content="Dr. Muhammad Ghani, internal medicine, Cary NC, physician, board certified, primary care doctor" />
         <link rel="canonical" href="https://caryphysicians.com/about/provider" />
       </Helmet>
-      </HelmetProvider>
 
 
       <section

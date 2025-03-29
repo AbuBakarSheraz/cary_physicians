@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { appointmentService } from '../../services/appointmentService';
-import img from '/public/logos/logo.webp';
+import img from '/logos/logo.webp';
 
 const AppointmentForm = () => {
   const navigate = useNavigate();

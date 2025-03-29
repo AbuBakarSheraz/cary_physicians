@@ -4,7 +4,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from "lucide-react";
 import logo from '/logos/logo.webp';
 import Button from '../ui/Button';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 
 export default function Header({ aboutref, providerref, appref, haref }) {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -144,7 +144,6 @@ export default function Header({ aboutref, providerref, appref, haref }) {
   return (
     <>
       {/* Schema.org structured data */}
-      <HelmetProvider>
       <Helmet>
         <script type="application/ld+json">
           {JSON.stringify(schemaData)}
@@ -152,7 +151,6 @@ export default function Header({ aboutref, providerref, appref, haref }) {
         <meta name="description" content="Cary Physicians provides comprehensive healthcare services for patients in Cary, NC and surrounding areas." />
         <meta name="keywords" content="Cary healthcare, physicians, medical services, family medicine, primary care" />
       </Helmet>
-      </HelmetProvider>
       
       <header className="sticky top-0 z-50 w-full bg-emerald-400 shadow-md" itemScope itemType="https://schema.org/MedicalOrganization">
         <div className="container relative  mx-auto px-4">
