@@ -1,5 +1,7 @@
 import React from 'react';
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+'use server';
+
 
 const PatientPortal = () => {
   return (
@@ -174,6 +176,7 @@ const HealthAccess = () => {
 const HealthSections = () => {
   return (
     <>
+    <HelmetProvider>
       <Helmet>
         {/* <title>Patient Portal & Health Access | Manage Your Health Online</title> */}
         <meta name="description" content="Access your health information online through our secure Patient Portal and healow smartphone app. View lab results, book appointments, and more." />
@@ -205,6 +208,7 @@ const HealthSections = () => {
           }}
         />
       </Helmet>
+      </HelmetProvider>
     
       <div className="overflow-hidden ">
         <PatientPortal />

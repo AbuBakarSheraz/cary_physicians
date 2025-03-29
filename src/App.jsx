@@ -10,6 +10,8 @@ import Guide from './components/sections/Guide.jsx';
 import Patienttools from './components/sections/Patienttools.jsx';
 import Faqs from './components/sections/Faqs.jsx';
 import Footer from './components/sections/Footer.jsx';
+'use server';
+
 
 function App() {
   const aboutref = useRef(null);

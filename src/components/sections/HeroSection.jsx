@@ -1,7 +1,9 @@
 import React from 'react';
+'use server';
 import Button from '../ui/Button';
 import heroimage from '../../assets/images/hero-bg.webp';
 import { Info } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 
 function HeroSection() {
@@ -27,13 +29,18 @@ function HeroSection() {
         </h3>
         <h3 className='text-white mt-6 text-2xl '>Call: 919-230-7339</h3>
 
-        <div>
+        <div className="flex gap-4">
 
         <Button variant="primary" 
         onClick={() => window.open("https://mycw243.ecwcloud.com/portal28343/jsp/100mp/login_otp.jsp", "_blank")}
         size="sm" className="py-3 w-1/2  mt-6 hover:bg-red-500 transition-transform hover:scale-110 duration-1000 linear">
           Patient Portal Login
         </Button>
+        <Link
+        to="/create-appointments"
+        className="px-4 py-2 w-1/2  hover:bg-red-500 rounded-lg font-semibold transition-transform hover:scale-110 duration-1000 linear  mt-6 text-center text-base bg-blue-500 text-white "> 
+          Request Appointment 
+       </Link>
         </div>
       </div>
     </div>

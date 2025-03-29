@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+'use server';
+
 
 export default function FAQSection() {
   const faqs = [

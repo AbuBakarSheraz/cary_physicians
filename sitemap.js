@@ -2,11 +2,13 @@ import fs from "fs";
 import path from "path";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+'use server';
+
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const BASE_URL =  "https://caryphysicians.com";
-  process.env.NODE_ENV === "https://caryphysicians.com"
+const BASE_URL =  "https://caryphysician.com";
+  process.env.NODE_ENV === "https://caryphysician.com"
 
 const pages = ["", "about", "services", "contact", "blog"]; // Add all static pages here
 

@@ -1,4 +1,5 @@
 import React from "react";
+'use server';
 
 export default function Footer() {
   return (

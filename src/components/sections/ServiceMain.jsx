@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+'use server';
 
 const ServicesMain = () => {
   // Healthcare services data organized in columns (same as in Header)

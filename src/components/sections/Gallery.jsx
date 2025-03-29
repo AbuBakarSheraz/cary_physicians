@@ -5,6 +5,8 @@ import p3 from '../../assets/images/our-photos/practice3.webp';
 import p4 from '../../assets/images/our-photos/practice4.webp';
 import p5 from '../../assets/images/our-photos/practice5.webp';
 import p6 from '../../assets/images/our-photos/practice6.webp';
+'use server';
+
 
 function Gallery() {
   // All images in a flat array

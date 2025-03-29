@@ -8,6 +8,8 @@ import Guide from '../components/sections/Guide';
 import Patienttools from '../components/sections/Patienttools';
 import Faqs from '../components/sections/Faqs';
 import HeroSection from '../components/sections/HeroSection';
+'use server';
+
 
 const Home = () => {
   // Get refs from the Layout component

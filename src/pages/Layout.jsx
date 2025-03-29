@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from './components/layout/Header';
-import Footer from './components/sections/Footer';
+import Header from '../components/layout/Header';
+import Footer from '../components/sections/Footer';
+'use server';
+
 
 const Layout = () => {
   // Create refs to pass to Header

@@ -1,9 +1,10 @@
+'use server';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from "lucide-react";
 import logo from '/logos/logo.webp';
 import Button from '../ui/Button';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 export default function Header({ aboutref, providerref, appref, haref }) {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -143,6 +144,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
   return (
     <>
       {/* Schema.org structured data */}
+      <HelmetProvider>
       <Helmet>
         <script type="application/ld+json">
           {JSON.stringify(schemaData)}
@@ -150,6 +152,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
         <meta name="description" content="Cary Physicians provides comprehensive healthcare services for patients in Cary, NC and surrounding areas." />
         <meta name="keywords" content="Cary healthcare, physicians, medical services, family medicine, primary care" />
       </Helmet>
+      </HelmetProvider>
       
       <header className="sticky top-0 z-50 w-full bg-emerald-400 shadow-md" itemScope itemType="https://schema.org/MedicalOrganization">
         <div className="container relative  mx-auto px-4">
@@ -240,9 +243,12 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               <Button variant="primary" onClick={() => window.open("https://link.clover.com/urlshortener/VKbGDj", "_blank")}>
                 Pay
               </Button>
-              <Button variant="primary" onClick={() => window.open("https://mycw243.ecwcloud.com/portal28343/jsp/100mp/login_otp.jsp", "_blank")}>
-                Login
-              </Button>
+              <Link 
+              to="/create-appointments"
+               className='bg-blue-500 text-white hover:bg-blue-600 px-3 py-2 text-sm font-semibold rounded-lg transition duration-300 ease-in-out' 
+               >
+                Request Apppointment
+              </Link>
             </div>
             
             {/* Mobile Menu Button */}

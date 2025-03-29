@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
+'use server';
+
 
 const ServicePage = () => {
   const { serviceType } = useParams();

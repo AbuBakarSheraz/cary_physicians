@@ -1,5 +1,7 @@
 import React from "react";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+'use server';
+
 
 export default function HealowSetupGuide() {
   const steps = [
@@ -23,6 +25,7 @@ export default function HealowSetupGuide() {
 
   return (
     <>
+    <HelmetProvider>
       <Helmet>
         {/* <title>Set Up Healow App | Patient Portal Access in 4 Easy Steps</title> */}
         <meta name="description" content="Set up the healow app in four easy steps to access your health records. Use our unique practice code GFAHDD to connect with our clinic." />
@@ -46,6 +49,7 @@ export default function HealowSetupGuide() {
           }}
         />
       </Helmet>
+      </HelmetProvider>
 
       <section className="bg-gradient-to-b  py-6">
         <div className="container px-6 mx-auto max-w-7xl">

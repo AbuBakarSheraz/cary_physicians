@@ -1,4 +1,6 @@
 import React from "react";
+'use server';
+
 import { Facebook } from 'lucide-react';
 import { Instagram } from 'lucide-react';
 import { Linkedin } from 'lucide-react';
