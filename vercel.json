@@ -1,0 +1,37 @@
+{
+    "rewrites": [
+      {
+        "source": "/admin",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/app",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/create-appointments",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/services",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/services/:serviceType",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/login",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/admin/show-appointments",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
+      }
+    ]
+  }
+  
