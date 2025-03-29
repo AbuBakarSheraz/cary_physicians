@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     element : <AppointmentForm />,
   },
   {
-    path: "/admin",
+    path: "admin",
     element: (
       <ProtectedRoute>
         <Admin />
