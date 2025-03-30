@@ -6,19 +6,15 @@ import img from '/logos/logo.webp';
 const AppointmentForm = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    full_name: '',
+    first_name: '',
+    last_name: '',
     email: '',
     phone_number: '',
-    phone_type: 'Mobile',
     age: '',
     gender: 'Male',
-    city: '',
-    state: '',
     insurance_holder: 'no',
     insurance_company: '',
-    reason: '',
-    preferred_day: 'Monday',
-    preferred_time: 'Morning'
+    reason: ''
   });
   
   const [submitting, setSubmitting] = useState(false);
@@ -41,19 +37,15 @@ const AppointmentForm = () => {
         setSuccess(true);
         // Reset form after successful submission
         setFormData({
-          full_name: '',
+          first_name: '',
+          last_name: '',
           email: '',
           phone_number: '',
-          phone_type: 'Mobile',
           age: '',
           gender: 'Male',
-          city: '',
-          state: '',
           insurance_holder: 'no',
           insurance_company: '',
-          reason: '',
-          preferred_day: 'Monday',
-          preferred_time: 'Morning'
+          reason: ''
         });
         
         // Redirect to thank you page or admin dashboard if an admin is using this form
@@ -80,7 +72,7 @@ const AppointmentForm = () => {
           {/* Header section with gradient background */}
           <div className="bg-gradient-to-r from-emerald-400 to-emerald-500 px-8 py-6 text-white">
             <div className="flex items-center space-x-6">
-              <div className=" rounded-full">
+              <div className="rounded-full">
                 <img src={img} alt="logo" className="h-20 w-auto" />
               </div>
               <div>
@@ -105,7 +97,7 @@ const AppointmentForm = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
-                <p>Your appointment has been successfully scheduled. We will contact you shortly to confirm.</p>
+                <p>Your appointment request had been submitted successfully. One of the staff member will contact you during business hours to confirm the appointment.</p>
               </div>
             )}
             
@@ -121,18 +113,33 @@ const AppointmentForm = () => {
                   </h3>
                   
                   <div className="space-y-5">
-                    <div>
-                      <label htmlFor="full_name" className="block text-sm font-medium text-gray-700">Full Name</label>
-                      <input
-                        type="text"
-                        id="full_name"
-                        name="full_name"
-                        value={formData.full_name}
-                        onChange={handleChange}
-                        required
-                        className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-transparent text-gray-700"
-                        placeholder="John Doe"
-                      />
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label htmlFor="first_name" className="block text-sm font-medium text-gray-700">First Name</label>
+                        <input
+                          type="text"
+                          id="first_name"
+                          name="first_name"
+                          value={formData.first_name}
+                          onChange={handleChange}
+                          required
+                          className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-transparent text-gray-700"
+                          placeholder="John"
+                        />
+                      </div>
+                      <div>
+                        <label htmlFor="last_name" className="block text-sm font-medium text-gray-700">Last Name</label>
+                        <input
+                          type="text"
+                          id="last_name"
+                          name="last_name"
+                          value={formData.last_name}
+                          onChange={handleChange}
+                          required
+                          className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-transparent text-gray-700"
+                          placeholder="Doe"
+                        />
+                      </div>
                     </div>
                     
                     <div>
@@ -149,35 +156,18 @@ const AppointmentForm = () => {
                       />
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700">Phone Number</label>
-                        <input
-                          type="text"
-                          id="phone_number"
-                          name="phone_number"
-                          value={formData.phone_number}
-                          onChange={handleChange}
-                          required
-                          placeholder="XXX-XXX-XXXX"
-                          className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-transparent text-gray-700"
-                        />
-                      </div>
-                      
-                      <div>
-                        <label htmlFor="phone_type" className="block text-sm font-medium text-gray-700">Phone Type</label>
-                        <select
-                          id="phone_type"
-                          name="phone_type"
-                          value={formData.phone_type}
-                          onChange={handleChange}
-                          className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-transparent text-gray-700"
-                        >
-                          <option>Mobile</option>
-                          <option>Home</option>
-                          <option>Work</option>
-                        </select>
-                      </div>
+                    <div>
+                      <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700">Phone Number</label>
+                      <input
+                        type="text"
+                        id="phone_number"
+                        name="phone_number"
+                        value={formData.phone_number}
+                        onChange={handleChange}
+                        required
+                        placeholder="XXX-XXX-XXXX"
+                        className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-transparent text-gray-700"
+                      />
                     </div>
                     
                     <div className="grid grid-cols-2 gap-4">
@@ -212,36 +202,7 @@ const AppointmentForm = () => {
                       </div>
                     </div>
                     
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="city" className="block text-sm font-medium text-gray-700">City</label>
-                        <input
-                          type="text"
-                          id="city"
-                          name="city"
-                          value={formData.city}
-                          onChange={handleChange}
-                          required
-                          className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-transparent text-gray-700"
-                          placeholder="Cary"
-                        />
-                      </div>
-                      
-                      <div>
-                        <label htmlFor="state" className="block text-sm font-medium text-gray-700">State</label>
-                        <input
-                          type="text"
-                          id="state"
-                          name="state"
-                          value={formData.state}
-                          onChange={handleChange}
-                          required
-                          maxLength="2"
-                          placeholder="NC"
-                          className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:emerald-200 focus:border-transparent text-gray-700"
-                        />
-                      </div>
-                    </div>
+                   
                   </div>
                 </div>
                 
@@ -287,49 +248,13 @@ const AppointmentForm = () => {
                       <textarea
                         id="reason"
                         name="reason"
-                        rows="4"
+                        rows="8"
                         value={formData.reason}
                         onChange={handleChange}
                         required
                         className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-transparent text-gray-700"
                         placeholder="Please describe your symptoms or reason for visit"
                       ></textarea>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="preferred_day" className="block text-sm font-medium text-gray-700">Preferred Day</label>
-                        <select
-                          id="preferred_day"
-                          name="preferred_day"
-                          value={formData.preferred_day}
-                          onChange={handleChange}
-                          className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-200
-                           focus:border-transparent text-gray-700"
-                        >
-                          <option>Monday</option>
-                          <option>Tuesday</option>
-                          <option>Wednesday</option>
-                          <option>Thursday</option>
-                          <option>Friday</option>
-                          <option>Saturday</option>
-                        </select>
-                      </div>
-                      
-                      <div>
-                        <label htmlFor="preferred_time" className="block text-sm font-medium text-gray-700">Preferred Time</label>
-                        <select
-                          id="preferred_time"
-                          name="preferred_time"
-                          value={formData.preferred_time}
-                          onChange={handleChange}
-                          className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-transparent text-gray-700"
-                        >
-                          <option>Morning</option>
-                          <option>Noon</option>
-                          <option>Evening</option>
-                        </select>
-                      </div>
                     </div>
                   </div>
                 </div>

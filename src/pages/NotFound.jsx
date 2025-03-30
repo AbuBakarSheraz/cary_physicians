@@ -11,10 +11,10 @@ const NotFound = () => {
         The page you are looking for does not exist or has been moved.
       </p>
       <Link
-        to="/admin"
+        to="/"
         className="mt-6 px-6 py-3 text-white bg-yellow-500 hover:bg-yellow-600 rounded-lg shadow-lg transition"
       >
-        Go Back Admin Panel
+        Go Back Home
       </Link>
     </div>
   );

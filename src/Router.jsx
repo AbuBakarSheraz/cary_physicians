@@ -8,7 +8,8 @@ import ServicePage from './components/sections/ServicePage.jsx';
 import ServicesMain from './components/sections/ServiceMain.jsx';
 import ProtectedRoute from './auth/ProtectedRoute.jsx';
 import Admin from './pages/Admin.jsx';
-import Loginadmin from './auth/Loginadmin.jsx'; // Import the Login component
+// import Loginadmin from './auth/Loginadmin.jsx'; // Import the Login component
+import Loginadmin from './auth/Loginadmin.jsx'; 
 import AppointmentsTable from './components/appointments/AppointmentsTable.jsx';
 import AppointmentForm from './components/appointments/AppointmentForm.jsx';
 

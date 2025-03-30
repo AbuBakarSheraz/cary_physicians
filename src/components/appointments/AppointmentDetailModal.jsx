@@ -1,6 +1,12 @@
 import React from 'react';
 
 const AppointmentDetailModal = ({ appointment, onClose }) => {
+  // Format the full name from first_name and last_name
+  const fullName = `${appointment.first_name} ${appointment.last_name}`;
+  
+  // Format the date and time
+  const formattedDateTime = new Date(appointment.created_at).toLocaleString();
+  
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-full overflow-y-auto">
@@ -22,7 +28,7 @@ const AppointmentDetailModal = ({ appointment, onClose }) => {
               <div className="space-y-2">
                 <div>
                   <span className="text-sm font-medium text-gray-500">Full Name:</span>
-                  <p className="mt-1">{appointment.full_name}</p>
+                  <p className="mt-1">{fullName}</p>
                 </div>
                 <div>
                   <span className="text-sm font-medium text-gray-500">Email:</span>
@@ -30,15 +36,11 @@ const AppointmentDetailModal = ({ appointment, onClose }) => {
                 </div>
                 <div>
                   <span className="text-sm font-medium text-gray-500">Phone:</span>
-                  <p className="mt-1">{appointment.phone_number} ({appointment.phone_type})</p>
+                  <p className="mt-1">{appointment.phone_number}</p>
                 </div>
                 <div>
                   <span className="text-sm font-medium text-gray-500">Age & Gender:</span>
                   <p className="mt-1">{appointment.age} years, {appointment.gender}</p>
-                </div>
-                <div>
-                  <span className="text-sm font-medium text-gray-500">Location:</span>
-                  <p className="mt-1">{appointment.city}, {appointment.state}</p>
                 </div>
               </div>
             </div>
@@ -48,7 +50,7 @@ const AppointmentDetailModal = ({ appointment, onClose }) => {
               <div className="space-y-2">
                 <div>
                   <span className="text-sm font-medium text-gray-500">Insurance Holder:</span>
-                  <p className="mt-1">{appointment.insurance_holder || 'Not specified'}</p>
+                  <p className="mt-1">{appointment.insurance_holder}</p>
                 </div>
                 <div>
                   <span className="text-sm font-medium text-gray-500">Insurance Company:</span>
@@ -59,12 +61,12 @@ const AppointmentDetailModal = ({ appointment, onClose }) => {
                   <p className="mt-1">{appointment.reason}</p>
                 </div>
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Preferred Schedule:</span>
-                  <p className="mt-1">{appointment.preferred_day}, {appointment.preferred_time}</p>
+                  <span className="text-sm font-medium text-gray-500">Created At:</span>
+                  <p className="mt-1">{formattedDateTime}</p>
                 </div>
                 <div>
-                  <span className="text-sm font-medium text-gray-500">Created At:</span>
-                  <p className="mt-1">{new Date(appointment.created_at).toLocaleString()}</p>
+                  <span className="text-sm font-medium text-gray-500">Appointment ID:</span>
+                  <p className="mt-1">#{appointment.id}</p>
                 </div>
               </div>
             </div>

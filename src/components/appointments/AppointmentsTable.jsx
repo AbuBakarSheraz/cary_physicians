@@ -45,14 +45,13 @@ const AppointmentsTable = () => {
     }
   };
 
-  const handledelete = async(id) => {
+  const handleDelete = async(id) => {
     try {
         setLoading(true);
         const response = await appointmentService.deleteAppointmentById(id);
         if (response.success) {
           setAppointments((prev) => prev.filter((appt) => appt.id !== id));
           console.log("Appointment deleted successfully");
-          
         }
       } catch (err) {
         setError('Failed to delete the appointment.');
@@ -60,7 +59,6 @@ const AppointmentsTable = () => {
       } finally {
         setLoading(false);
       }
-
   };
   
   return (
@@ -97,7 +95,8 @@ const AppointmentsTable = () => {
                   <th className="px-6 py-3 text-left text-[15px] font-medium text-gray-500 uppercase tracking-wider">Patient</th>
                   <th className="px-6 py-3 text-left text-[15px] font-medium text-gray-500 uppercase tracking-wider">Contact</th>
                   <th className="px-6 py-3 text-left text-[15px] font-medium text-gray-500 uppercase tracking-wider">Demographics</th>
-                  <th className="px-6 py-3 text-left text-[15px] font-medium text-gray-500 uppercase tracking-wider">Schedule</th>
+                  <th className="px-6 py-3 text-left text-[15px] font-medium text-gray-500 uppercase tracking-wider">Insurance</th>
+                  <th className="px-6 py-3 text-left text-[15px] font-medium text-gray-500 uppercase tracking-wider">Reason</th>
                   <th className="px-6 py-3 text-center text-[15px] font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
@@ -106,40 +105,49 @@ const AppointmentsTable = () => {
                   appointments.map((appointment) => (
                     <tr key={appointment.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">{appointment.full_name}</div>
+                        <div className="text-sm font-medium text-gray-900">
+                          {appointment.first_name} {appointment.last_name}
+                        </div>
                         {/* <div className="text-sm text-gray-500">ID: {appointment.id}</div> */}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900">{appointment.email}</div>
-                        <div className="text-sm text-gray-500">{appointment.phone_number} ({appointment.phone_type})</div>
+                        <div className="text-sm text-gray-500">{appointment.phone_number}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">Age: {appointment.age}, {appointment.gender}</div>
-                        <div className="text-sm text-gray-500">{appointment.city}, {appointment.state}</div>
+                        <div className="text-sm text-gray-900">Age: {appointment.age}</div>
+                        <div className="text-sm text-gray-500">Gender: {appointment.gender}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{appointment.preferred_day}, {appointment.preferred_time}</div>
-                        <div className="text-sm text-gray-500">{new Date(appointment.created_at).toLocaleDateString()}</div>
+                        <div className="text-sm text-gray-900">Holder: {appointment.insurance_holder}</div>
+                        <div className="text-sm text-gray-500">
+                          {appointment.insurance_company ? appointment.insurance_company : 'N/A'}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900 max-w-xs truncate">
+                          {appointment.reason}
+                        </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap font-medium">
                         <button
                           onClick={() => handleViewDetails(appointment.id)}
                           className="text-blue-600 hover:text-blue-900 px-3 py-1 rounded-md hover:bg-blue-50 transition-colors"
                         >
-                          View Details
+                          View
                         </button>
                         <button
-                          onClick={() => handledelete(appointment.id)}
-                          className="text-blue-600 hover:text-blue-900 px-3 py-1 rounded-md hover:bg-blue-50 transition-colors"
+                          onClick={() => handleDelete(appointment.id)}
+                          className="text-red-600 hover:text-red-900 px-3 py-1 rounded-md hover:bg-red-50 transition-colors ml-2"
                         >
-                          Delete ppointment
+                          Delete
                         </button>
                       </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="px-6 py-4 text-center text-sm text-gray-500">
+                    <td colSpan="6" className="px-6 py-4 text-center text-sm text-gray-500">
                       No appointments found
                     </td>
                   </tr>
