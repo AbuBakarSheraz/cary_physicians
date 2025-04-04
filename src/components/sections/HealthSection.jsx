@@ -180,7 +180,7 @@ const HealthSections = () => {
         {/* <title>Patient Portal & Health Access | Manage Your Health Online</title> */}
         <meta name="description" content="Access your health information online through our secure Patient Portal and healow smartphone app. View lab results, book appointments, and more." />
         <meta name="keywords" content="patient portal, healow app, online health access, medical records, telemedicine" />
-        <link rel="canonical" href="https://yourhealthclinic.com/patient-resources" />
+        {/* <link rel="canonical" href="https://caryphysician.com/patient-resources" /> */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -191,7 +191,7 @@ const HealthSections = () => {
               "mainEntity": {
                 "@type": "MedicalOrganization",
                 "name": "Your Health Clinic",
-                "url": "https://yourhealthclinic.com/patient-portal",
+                "url": "https://caryphysician.com/patient-portal",
                 "contactPoint": {
                   "@type": "ContactPoint",
                   "telephone": "+9192307439",
@@ -206,6 +206,16 @@ const HealthSections = () => {
             })
           }}
         />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y2436H04DJ">
+        </script>
+          <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments)
+          }
+            gtag('js', new Date());
+
+            gtag('config', 'G-Y2436H04DJ');
+          </script>
       </Helmet>
     
       <div className="overflow-hidden ">

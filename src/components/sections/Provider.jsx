@@ -11,6 +11,16 @@ const AboutProvider = () => {
         <meta name="description" content="Meet Dr. Muhammad A Ghani, MD, a board-certified internal medicine physician with 15+ years of experience. Providing compassionate care in Cary, NC." />
         <meta name="keywords" content="Dr. Muhammad Ghani, internal medicine, Cary NC, physician, board certified, primary care doctor" />
         <link rel="canonical" href="https://caryphysicians.com/about/provider" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y2436H04DJ">
+        </script>
+          <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments)
+          }
+            gtag('js', new Date());
+
+            gtag('config', 'G-Y2436H04DJ');
+          </script>
       </Helmet>
 
 
