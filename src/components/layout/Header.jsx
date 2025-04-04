@@ -31,31 +31,27 @@ export default function Header({ aboutref, providerref, appref, haref }) {
   useEffect(() => {
     setMobileDrawerOpen(false);
   }, [location]);
-
   const scrollToSection = (event, ref, path) => {
     event.preventDefault();
     
-    // If we're already on the homepage, scroll to the section
+    // If we're already on the homepage, just scroll to the section
     if (location.pathname === '/') {
       const header = document.querySelector("header");
       const offset = header ? header.offsetHeight : 80;
       const elementPosition = ref.current.getBoundingClientRect().top + window.scrollY;
       
       window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
-      window.history.replaceState(null, "", path);
+      
+      // Use pushState instead of replaceState to create proper history entries
+      if (path !== window.location.pathname + window.location.hash) {
+        window.history.pushState(null, "", path);
+      }
     } 
-    // Otherwise navigate to homepage and then scroll
+    // For non-homepage, use standard navigation with hash
     else {
-      navigate('/');
-      // Use setTimeout to allow navigation to complete before scrolling
-      setTimeout(() => {
-        const header = document.querySelector("header");
-        const offset = header ? header.offsetHeight : 80;
-        const elementPosition = ref.current.getBoundingClientRect().top + window.scrollY;
-        
-        window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
-        window.history.replaceState(null, "", path);
-      }, 100);
+      // Navigate to homepage with the hash in the URL
+      window.location.href = `/${path}`;
+      // The browser will automatically scroll to the element with matching ID
     }
   }
   
@@ -173,7 +169,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               <Link 
                 className="text-gray-700 text-lg font-medium hover:text-white  transition-all duration-500 ease-in-out"
                 to="/about"
-                onClick={(e) => aboutref && scrollToSection(e, aboutref, "/about")}
+                onClick={(e) => aboutref && scrollToSection(e, aboutref, "#about")}
               >
                 About
               </Link>  
@@ -181,7 +177,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               <Link 
                 className="text-gray-700 text-lg font-medium hover:text-white  transition-all duration-500 ease-in-out"
                 to="/provider"
-                onClick={(e) => providerref && scrollToSection(e, providerref, "/provider")}
+                onClick={(e) => providerref && scrollToSection(e, providerref, "#provider")}
               >
                 Provider
               </Link> 
@@ -229,7 +225,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
              
               <Link 
                 to="/healthaccess"
-                onClick={(e) => haref && scrollToSection(e, haref, "/healthaccess")} 
+                onClick={(e) => haref && scrollToSection(e, haref, "#healthaccess")} 
                 className="text-gray-700 text-lg font-medium hover:text-white  transition-all duration-500 ease-in-out"
               >
                 Health Access
@@ -278,7 +274,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
                 className="text-white text-lg font-medium hover:text-white hover:border hover:border-white hover:py-1 hover:px-3 rounded-md transition-all duration-500 ease-in-out"
                 to="/about"
                 onClick={(e) => {
-                  aboutref && scrollToSection(e, aboutref, "/about");
+                  aboutref && scrollToSection(e, aboutref, "#about");
                   setMobileDrawerOpen(false);
                 }}
               >
@@ -288,7 +284,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
                 className="text-white text-lg font-medium hover:text-white hover:border hover:border-white hover:py-1 hover:px-3 rounded-md transition-all duration-500 ease-in-out"
                 to="/provider" 
                 onClick={(e) => {
-                  providerref && scrollToSection(e, providerref, "/provider");
+                  providerref && scrollToSection(e, providerref, "#provider");
                   setMobileDrawerOpen(false);
                 }}
               >
@@ -341,7 +337,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               <Link 
                 to="/healthaccess"
                 onClick={(e) => {
-                  haref && scrollToSection(e, haref, "/healthaccess");
+                  haref && scrollToSection(e, haref, "#healthaccess");
                   setMobileDrawerOpen(false);
                 }} 
                 className="text-white text-lg font-medium hover:text-white hover:border hover:border-white hover:py-1 hover:px-3 rounded-md transition-all duration-500 ease-in-out"
