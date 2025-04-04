@@ -81,16 +81,7 @@ export default function PatientToolsTabs() {
           {JSON.stringify(structuredData)}
         </script>
 
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y2436H04DJ">
-        </script>
-          <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments)
-          }
-            gtag('js', new Date());
-
-            gtag('config', 'G-Y2436H04DJ');
-          </script>
+       
       </Helmet>
 
       <section id="patient-tools" className="py-8  ">

@@ -31,7 +31,6 @@ export default function HealowSetupGuide() {
         <meta name="description" content="Set up the healow app in four easy steps to access your health records. Use our unique practice code GFAHDD to connect with our clinic." />
         <meta name="keywords" content="healow app, patient portal, healthcare app, medical records, GFAHDD" />
         <link rel="canonical" href="https://caryphysician.com/patient-resources/healow" />
-        
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -49,16 +48,6 @@ export default function HealowSetupGuide() {
             })
           }}
         />
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y2436H04DJ">
-</script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments)
-}
-  gtag('js', new Date());
-
-  gtag('config', 'G-Y2436H04DJ');
-</script>
       </Helmet>
 
       <section className="bg-gradient-to-b  py-6">
