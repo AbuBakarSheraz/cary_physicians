@@ -27,7 +27,7 @@ function HeroSection() {
           >
             Dedicated to providing comprehensive primary care services for individuals and families in our community.
           </h3>
-          <h3 className="text-white mt-6 text-xl sm:text-2xl">Call: 919-230-7339</h3>
+          <h3 className="text-white mt-6 text-xl sm:text-2xl">Call: 919-230-7439</h3>
 
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
             <Button 
