@@ -12,6 +12,12 @@ import Admin from './pages/Admin.jsx';
 import Loginadmin from './auth/Loginadmin.jsx'; 
 import AppointmentsTable from './components/appointments/AppointmentsTable.jsx';
 import AppointmentForm from './components/appointments/AppointmentForm.jsx';
+import Options from './pages/Packet/Options.jsx';
+import Practicefpform from './pages/Packet/InputForms/Practicefpform.jsx';
+import AdvanceBN  from './pages/Packet/InputForms/AdvanceBN.jsx';
+import Telehealth from './pages/Packet/InputForms/Telehealth.jsx';
+import ReleaseRecord from './pages/Packet/InputForms/RelaeseRecord.jsx'
+import RecordReleaseForms from './pages/Packet/Showforms/RecordReleaseForms.jsx';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +28,18 @@ const router = createBrowserRouter([
       { path: "services", element: <ServicesMain /> },
       { path: "services/:serviceType", element: <ServicePage /> },
     ],
+  },
+  {
+    path : "New-Patient-Packet",
+    element : <Options />,
+  },
+  {
+    path : "telehealth_consent",
+    element : <Telehealth />,
+  },
+  {
+    path : "Release_Medical_Record",
+    element : <ReleaseRecord />,
   },
   {
     path: "/app",
@@ -36,6 +54,14 @@ const router = createBrowserRouter([
     element : <AppointmentForm />,
   },
   {
+    path : "practice_financial_policy",
+    element : <Practicefpform />,
+  },
+  {
+    path : "Advance_Beneficiary_Notice",
+    element : <AdvanceBN />,
+  },
+  {
     path: "admin",
     element: (
       <ProtectedRoute>
@@ -46,6 +72,10 @@ const router = createBrowserRouter([
       {
         path : "show-appointments",
         element : <AppointmentsTable />,
+      },
+      {
+        path : "record_release_forms",
+        element : <RecordReleaseForms />,
       },
   
     ]

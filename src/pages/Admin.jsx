@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Routes, Route, useNavigate } from 'react-router-dom';
 import AppointmentsTable from '../components/appointments/AppointmentsTable';
+import RecordReleaseForms from './Packet/Showforms/RecordReleaseForms';
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -70,12 +71,22 @@ const Admin = () => {
                     View all appointments →
                   </Link>
                 </div>
+
+                <div className="bg-blue-50 p-6 rounded-lg border border-blue-100">
+                  <h3 className="font-medium text-blue-800 mb-2">Medical Record Release Forms</h3>
+                  {/* <p className="text-blue-600 text-2xl font-bold">0</p> */}
+                  {/* <p className="text-blue-600 text-sm mt-1">Today</p> */}
+                  <Link to="/admin/record_release_forms" className="mt-4 inline-block text-blue-600 hover:text-blue-800 text-sm">
+                    View all forms →
+                  </Link>
+                </div>
                 
                 {/* Add more dashboard widgets here */}
               </div>
             </div>
           } />
           <Route path="/show-appointments" element={<AppointmentsTable />} />
+          <Route path="/record_release_forms" element={<RecordReleaseForms />} />
         </Routes>
       </main>
     </div>

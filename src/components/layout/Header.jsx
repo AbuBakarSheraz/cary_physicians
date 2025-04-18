@@ -31,33 +31,46 @@ export default function Header({ aboutref, providerref, appref, haref }) {
   useEffect(() => {
     setMobileDrawerOpen(false);
   }, [location]);
+
   const scrollToSection = (event, ref, path) => {
     event.preventDefault();
     
-    // If we're already on the homepage, just scroll to the section
-    if (location.pathname === '/') {
-      const header = document.querySelector("header");
-      const offset = header ? header.offsetHeight : 80;
-      const elementPosition = ref.current.getBoundingClientRect().top + window.scrollY;
-      
-      window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
-      
-      // Use pushState instead of replaceState to create proper history entries
-      if (path !== window.location.pathname + window.location.hash) {
-        window.history.pushState(null, "", path);
+    // Get the header height for offset calculation
+    const header = document.querySelector("header");
+    const offset = header ? header.offsetHeight : 0;
+    
+    if (location.pathname === '/' || path.startsWith('#')) {
+      // If we're on the homepage or the path is just a hash, scroll to the section
+      if (ref && ref.current) {
+        const elementPosition = ref.current.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: elementPosition - offset, behavior: "smooth" });
+        
+        // Update URL with hash
+        const hashPart = path.startsWith('#') ? path : `#${path.split('#')[1]}`;
+        if (hashPart && hashPart !== window.location.hash) {
+          window.history.pushState(null, "", hashPart);
+        }
       }
-    } 
-    // For non-homepage, use standard navigation with hash
-    else {
-      // Navigate to homepage with the hash in the URL
-      window.location.href = `/${path}`;
-      // The browser will automatically scroll to the element with matching ID
+    } else {
+      // Navigate to home with hash, then the useEffect in the homepage should handle scrolling
+      navigate(path);
     }
-  }
+  };
   
   const toggleNavbar = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
-  }
+  };
+
+  const navigateToPage = (path) => {
+    // Close mobile menu if open
+    setMobileDrawerOpen(false);
+    
+    // Navigate to the new page
+    navigate(path);
+    
+    // Scroll to top
+    window.scrollTo(0, 0);
+  };
   
   // Healthcare services data organized in columns
   const healthcareServices = [
@@ -149,10 +162,10 @@ export default function Header({ aboutref, providerref, appref, haref }) {
       </Helmet>
       
       <header className="sticky top-0 z-50 w-full bg-emerald-400 shadow-md" itemScope itemType="https://schema.org/MedicalOrganization">
-        <div className="container relative  mx-auto px-4">
-          <div className="flex  items-center justify-between py-2">
+        <div className="container relative mx-auto px-4">
+          <div className="flex items-center justify-between py-2">
             {/* Logo with schema.org markup */}
-            <div className="flex  items-center">
+            <div className="flex items-center">
               <Link to="/">
                 <img src={logo} alt="Cary Physicians Logo" className="h-23 w-auto" itemProp="logo" />
               </Link>
@@ -166,17 +179,17 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               </Link>
               
               {/* Using Link for SPA navigation */}
-              <Link 
-                className="text-gray-700 text-lg font-medium hover:text-white  transition-all duration-500 ease-in-out"
-                to="/about"
+              {/* <Link 
+                className="text-gray-700 text-lg font-medium hover:text-white transition-all duration-500 ease-in-out"
+                to="/#about"
                 onClick={(e) => aboutref && scrollToSection(e, aboutref, "#about")}
               >
                 About
-              </Link>  
+              </Link>   */}
               
               <Link 
-                className="text-gray-700 text-lg font-medium hover:text-white  transition-all duration-500 ease-in-out"
-                to="/provider"
+                className="text-gray-700 text-lg font-medium hover:text-white transition-all duration-500 ease-in-out"
+                to="/#provider"
                 onClick={(e) => providerref && scrollToSection(e, providerref, "#provider")}
               >
                 Provider
@@ -188,19 +201,24 @@ export default function Header({ aboutref, providerref, appref, haref }) {
                 ref={dropdownRef}
                 onMouseEnter={() => setDropdown(true)}
               >
-                <Link 
-                  to="/services"
-                  className="text-gray-700 text-lg font-medium hover:text-white   transition-all duration-500 ease-in-out"
-                >
-                  Healthcare Services
-                </Link>
+              {/* Healthcare Services - navigates to top of new page */}
+<Link 
+  to="/services"
+  className="text-gray-700 text-lg font-medium hover:text-white transition-all duration-500 ease-in-out"
+  onClick={(e) => {
+    e.preventDefault();
+    navigateToPage('/services');
+  }}
+>
+  Healthcare Services
+</Link>
                 
                 {/* Multi-column dropdown menu */}
                 {dropdown && (
                   <div 
-                  onMouseLeave={() => setDropdown(false)}
-
-                  className="absolute left-0 top-15 mt-2 w-screen max-w-4xl bg-emerald-400 rounded-md shadow-lg py-4 z-50 grid grid-cols-4 gap-6 px-6 border border-gray-200">
+                    onMouseLeave={() => setDropdown(false)}
+                    className="absolute left-0 top-15 mt-2 w-screen max-w-4xl bg-emerald-400 rounded-md shadow-lg py-4 z-50 grid grid-cols-4 gap-6 px-6 border border-gray-200"
+                  >
                     {healthcareServices.map((column, index) => (
                       <div key={index} className="flex flex-col">
                         <h3 className="text-emerald-600 font-semibold text-lg border-b border-emerald-200 pb-2 mb-2">{column.title}</h3>
@@ -224,9 +242,9 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               </div>
              
               <Link 
-                to="/healthaccess"
+                to="/#healthaccess"
                 onClick={(e) => haref && scrollToSection(e, haref, "#healthaccess")} 
-                className="text-gray-700 text-lg font-medium hover:text-white  transition-all duration-500 ease-in-out"
+                className="text-gray-700 text-lg font-medium hover:text-white transition-all duration-500 ease-in-out"
               >
                 Health Access
               </Link>
@@ -238,10 +256,16 @@ export default function Header({ aboutref, providerref, appref, haref }) {
                 Pay
               </Button>
               <Link 
-              to="/create-appointments"
-               className='bg-blue-500 text-white hover:bg-blue-600 px-3 py-2 text-sm font-semibold rounded-lg transition duration-300 ease-in-out' 
-               >
-                Request Apppointment
+                to="/New-Patient-Packet"
+                className='bg-blue-500 text-white hover:bg-blue-600 px-3 py-2 text-sm font-semibold rounded-lg transition duration-300 ease-in-out' 
+              >
+                New Patient Packet
+              </Link>
+              <Link 
+                to="/create-appointments"
+                className='bg-blue-500 text-white hover:bg-blue-600 px-3 py-2 text-sm font-semibold rounded-lg transition duration-300 ease-in-out' 
+              >
+                Request Appointment
               </Link>
             </div>
             
@@ -272,7 +296,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               </Link>
               <Link 
                 className="text-white text-lg font-medium hover:text-white hover:border hover:border-white hover:py-1 hover:px-3 rounded-md transition-all duration-500 ease-in-out"
-                to="/about"
+                to="/#about"
                 onClick={(e) => {
                   aboutref && scrollToSection(e, aboutref, "#about");
                   setMobileDrawerOpen(false);
@@ -282,7 +306,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               </Link>  
               <Link 
                 className="text-white text-lg font-medium hover:text-white hover:border hover:border-white hover:py-1 hover:px-3 rounded-md transition-all duration-500 ease-in-out"
-                to="/provider" 
+                to="/#provider" 
                 onClick={(e) => {
                   providerref && scrollToSection(e, providerref, "#provider");
                   setMobileDrawerOpen(false);
@@ -294,13 +318,16 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               {/* Mobile Healthcare Services (expand/collapse) */}
               <div className="relative">
                 <div className="flex justify-between items-center">
-                  <Link 
-                    to="/services"
-                    className="text-white text-lg font-medium hover:text-white hover:border hover:border-white hover:py-1 hover:px-3 rounded-md transition-all duration-500 ease-in-out"
-                    onClick={() => setMobileDrawerOpen(false)}
-                  >
-                    Healthcare Services
-                  </Link>
+                <Link 
+  to="/services"
+  className="text-white text-lg font-medium hover:text-white hover:border hover:border-white hover:py-1 hover:px-3 rounded-md transition-all duration-500 ease-in-out"
+  onClick={(e) => {
+    e.preventDefault(); 
+    navigateToPage('/services');
+  }}
+>
+  Healthcare Services
+</Link>
                   <button 
                     onClick={() => setDropdown(!dropdown)} 
                     className="text-white p-1"
@@ -335,7 +362,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               </div>
              
               <Link 
-                to="/healthaccess"
+                to="/#healthaccess"
                 onClick={(e) => {
                   haref && scrollToSection(e, haref, "#healthaccess");
                   setMobileDrawerOpen(false);

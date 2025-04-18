@@ -44,6 +44,12 @@ function HeroSection() {
             > 
               Request Appointment 
             </Link>
+            <Link
+              to="/new-patient-packet"
+              className="px-4 py-2 w-full sm:w-1/2 hover:bg-red-500 rounded-lg font-semibold transition-transform hover:scale-105 duration-300 linear text-center text-base bg-blue-500 text-white"
+            > 
+              New Patient Packet
+            </Link>
           </div>
         </div>
       </div>
