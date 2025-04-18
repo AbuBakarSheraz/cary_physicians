@@ -27,6 +27,8 @@ export default function MedicalRecordsRelease() {
   const [showPreview, setShowPreview] = useState(false);
   const [logoImage, setLogoImage] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const sigCanvas = useRef({});
 
   // Load the logo image when component mounts
@@ -335,6 +337,8 @@ pdf.text("Genetic testing/counseling", margin + 80 + checkboxTextIndent, boxesY 
     // }
     
     try {
+      setIsSubmitting(true);
+
       // Generate the PDF and get the file
       const pdfFile = generatePDF();
       if (!pdfFile) {
@@ -349,18 +353,82 @@ pdf.text("Genetic testing/counseling", margin + 80 + checkboxTextIndent, boxesY 
       // Submit to server
       const result = await medicalReleaseRecordService.uploadRecord(submissionData);
       console.log("Upload result:", result);
-      
-      alert("Form submitted successfully!");
+      setShowSuccessModal(true);
       setShowPreview(false);
+
     } catch (error) {
       console.error("Error during submission:", error);
       alert("There was an error submitting the form: " + error.message);
+    }finally {
+      setIsSubmitting(false);
+      resetForm();
+
+
     }
   };
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
+    // Uncomment the following line if you want to reset the form when closing the modal
+    // resetForm();
+  };
+  const resetForm = () => {
+    setFormData({
+      lastName: '',
+      firstName: '',
+      dob: '',
+      address: '',
+      mrn: '',
+      doctorHospitalName: '',
+      faxNumber: '',
+      doctorAddress: '',
+      dateFrom: '',
+      dateTo: '',
+      alcoholSubstanceUse: false,
+      mentalHealth: false,
+      stisHiv: false,
+      geneticTesting: false,
+      date: new Date().toISOString().split('T')[0]
+    });
+    clearSignature();
+  };
+
 
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+       {isSubmitting && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white mb-4"></div>
+            {/* <p className="text-white text-lg font-semibold">Submitting form...</p> */}
+          </div>
+        </div>
+      )}
+      
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full shadow-xl mx-4">
+            <div className="flex items-center justify-center mb-4">
+              <div className="bg-green-100 rounded-full p-3">
+                <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 text-center mb-2">Form Submitted Successfully!</h3>
+            <p className="text-gray-600 text-center mb-6">Your medical records release form has been submitted and will be processed shortly.</p>
+            <div className="flex justify-center">
+              <button
+                onClick={handleCloseSuccessModal}
+                className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {!showPreview ? (
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md">
           <div className="px-4 py-5 sm:p-6">
@@ -776,20 +844,20 @@ pdf.text("Genetic testing/counseling", margin + 80 + checkboxTextIndent, boxesY 
                 Edit Form
               </button>
               
-              <button
+              {/* <button
                 type="button"
                 onClick={generatePDF}
                 className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
               >
                 Download PDF
-              </button>
+              </button> */}
               
               <button
                 type="button"
                 onClick={handleSubmit}
                 className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                Submit Form
+                Download and Submit Form
               </button>
             </div>
           </div>
