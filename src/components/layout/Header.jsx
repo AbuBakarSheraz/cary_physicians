@@ -294,7 +294,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               >
                 Home
               </Link>
-              <Link 
+              {/* <Link 
                 className="text-white text-lg font-medium hover:text-white hover:border hover:border-white hover:py-1 hover:px-3 rounded-md transition-all duration-500 ease-in-out"
                 to="/#about"
                 onClick={(e) => {
@@ -303,7 +303,7 @@ export default function Header({ aboutref, providerref, appref, haref }) {
                 }}
               >
                 About
-              </Link>  
+              </Link>   */}
               <Link 
                 className="text-white text-lg font-medium hover:text-white hover:border hover:border-white hover:py-1 hover:px-3 rounded-md transition-all duration-500 ease-in-out"
                 to="/#provider" 
@@ -372,26 +372,31 @@ export default function Header({ aboutref, providerref, appref, haref }) {
                 Health Access
               </Link>
             </nav>
-            <div className="flex flex-col space-y-3">
-              <Button 
-                variant="primary" 
-                onClick={() => {
-                  window.open("https://link.clover.com/urlshortener/VKbGDj", "_blank");
-                  setMobileDrawerOpen(false);
-                }}
-              >
-                Pay
-              </Button>
-              <Button 
-                variant="primary" 
-                onClick={() => {
-                  window.open("https://mycw243.ecwcloud.com/portal28343/jsp/100mp/login_otp.jsp", "_blank");
-                  setMobileDrawerOpen(false);
-                }}
-              >
-                Login
-              </Button>
-            </div>
+            <div className="flex flex-col space-y-3 w-full">
+  <Button 
+    variant="primary" 
+    className="w-full"
+    onClick={() => {
+      window.open("https://link.clover.com/urlshortener/VKbGDj", "_blank");
+      setMobileDrawerOpen(false);
+    }}
+  >
+    Pay
+  </Button>
+  <Link 
+    to="/New-Patient-Packet"
+    className='w-full bg-blue-500 text-white hover:bg-blue-600 px-3 py-2 text-sm font-semibold rounded-lg transition duration-300 ease-in-out' 
+  >
+    New Patient Packet
+  </Link>
+  <Link 
+    to="/create-appointments"
+    className='w-full bg-blue-500 text-white hover:bg-blue-600 px-3 py-2 text-sm font-semibold rounded-lg transition duration-300 ease-in-out' 
+  >
+    Request Appointment
+  </Link>
+</div>
+
           </div>
         )}
         
