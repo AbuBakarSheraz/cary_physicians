@@ -86,7 +86,7 @@ function RecordReleaseForms() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+                {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th> */}
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient Name</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Upload Date</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
@@ -95,7 +95,7 @@ function RecordReleaseForms() {
             <tbody className="bg-white divide-y divide-gray-200">
               {releaseForms.map((form) => (
                 <tr key={form.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 text-sm text-gray-900">{form.id}</td>
+                  {/* <td className="px-6 py-4 text-sm text-gray-900">{form.id}</td> */}
                   <td className="px-6 py-4 text-sm text-gray-900">{form.patient_name}</td>
                   <td className="px-6 py-4 text-sm text-gray-500">{formatDate(form.upload_date)}</td>
                   <td className="px-6 py-4 text-sm font-medium space-x-3">

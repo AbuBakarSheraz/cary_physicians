@@ -524,7 +524,7 @@ pdf.text("Genetic testing/counseling", margin + 80 + checkboxTextIndent, boxesY 
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Fax #</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Fax # (Optional)</label>
                     <input
                       type="text"
                       name="faxNumber"
