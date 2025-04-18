@@ -385,13 +385,13 @@ export default function Header({ aboutref, providerref, appref, haref }) {
   </Button>
   <Link 
     to="/New-Patient-Packet"
-    className='w-full bg-blue-500 text-white hover:bg-blue-600 px-3 py-2 text-sm font-semibold rounded-lg transition duration-300 ease-in-out' 
+    className='w-full bg-blue-500 text-center text-white hover:bg-blue-600 px-3 py-2 text-sm font-semibold rounded-lg transition duration-300 ease-in-out' 
   >
     New Patient Packet
   </Link>
   <Link 
     to="/create-appointments"
-    className='w-full bg-blue-500 text-white hover:bg-blue-600 px-3 py-2 text-sm font-semibold rounded-lg transition duration-300 ease-in-out' 
+    className='w-full bg-blue-500 text-white text-center hover:bg-blue-600 px-3 py-2 text-sm font-semibold rounded-lg transition duration-300 ease-in-out' 
   >
     Request Appointment
   </Link>
