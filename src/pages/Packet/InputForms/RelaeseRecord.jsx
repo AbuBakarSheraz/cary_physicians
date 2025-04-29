@@ -6,27 +6,38 @@ import medicalReleaseRecordService from '../../../services/Medical_records_servi
 
 export default function MedicalRecordsRelease() {
   const [formData, setFormData] = useState({
+    // Patient Information
     lastName: '',
     firstName: '',
     dob: '',
     address: '',
     mrn: '',
-    doctorHospitalName: '',
-    faxNumber: '',
-    doctorAddress: '',
+    
+    // Recipient Information
+    recipientFacility: '',
+    recipientProvider: '',
+    recipientAddress: '',
+    recipientTelephone: '',
+    recipientFaxNumber: '',
+    recipientEmail: '',
+    
+    // Date Range for Records
     dateFrom: '',
     dateTo: '',
-    alcoholSubstanceUse: false,
+    
+    // Authorization Checkboxes
+    officeVisits: false,
+    labs: false,
+    diagnosticsImaging: false,
+    proceduresOperations: false,
     mentalHealth: false,
-    stisHiv: false,
-    geneticTesting: false,
+    
     date: new Date().toISOString().split('T')[0]
   });
   
   const [signature, setSignature] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
   const [logoImage, setLogoImage] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const sigCanvas = useRef({});
@@ -83,9 +94,10 @@ export default function MedicalRecordsRelease() {
   };
 
   const generatePDF = () => {
+
     try {
       // Create a new PDF document
-      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdf = new jsPDF('p', 'mm', 'letter');
       
       // Set page dimensions
       const pageWidth = pdf.internal.pageSize.getWidth();
@@ -95,7 +107,7 @@ export default function MedicalRecordsRelease() {
       
       // Function to add header and footer
       const addHeaderFooter = () => {
-        // Header with logo and contact info
+        // Header with logo and title
         if (logoImage) {
           pdf.addImage(logoImage, 'PNG', margin, 7, 9, 24); // Smaller logo
         }
@@ -105,210 +117,283 @@ export default function MedicalRecordsRelease() {
         pdf.setFont('helvetica', 'bold');
         pdf.text("Cary Physicians Primary Care PLLC", margin + 10, 15);
         
-        // Footer - Minimal footer to save space 
+        // Title
+        pdf.setFontSize(12);
+        pdf.setTextColor(128, 0, 128); // Purple color for title
+        pdf.text("Authorization for Release of Medical Records", pageWidth / 2, 25, { align: 'center' });
+        pdf.setTextColor(0, 0, 0); // Reset to black
+        
+        // Footer
         pdf.setFontSize(6);
-        pdf.text("© 2025 Cary Physicians Primary Care PLLC", 14, pageHeight - 7);
+        pdf.text("Cary Physicians Primary Care PLLC, 115 Parkway Office Court, Suite 104", 14, pageHeight - 7);
       };
       
       // Add header and footer
       addHeaderFooter();
       
       // Start content
-      let y = 24; // Start below header
+      let y = 32; // Start below header
       
-      // Add title
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text("Authorization for Release of Medical Records", pageWidth / 2, y, { align: 'center' });
+      // Add date field
+ // Set up the date field with proper formatting and positioning
+pdf.setFontSize(10);
+// Make "Date:" text bold
+pdf.setFont('', 'bold');
+pdf.text("Date:", pageWidth - margin - 40, y);
+// Switch back to normal font for the date value
+pdf.setFont('helvetica', 'normal');
+// Create underline for date value
+pdf.line(pageWidth - margin - 30, y + 1, pageWidth - margin, y + 1);
+// Position the date value correctly to avoid overlapping
+pdf.text(formData.date, pageWidth - margin - 28, y);
+      
+      // REQUEST FROM and TO sections
+      y += 8;
+      
+      // Create a two-column layout
+      const colWidth = (contentWidth - 10) / 2;
+      let leftCol = margin;
+      let rightCol = margin + colWidth + 10;
+      
+      // Left column - REQUEST FROM
+      pdf.setFont('','bolditalic');
+      pdf.text("REQUEST FROM:", leftCol, y);
+      pdf.setFont('helvetica', 'italic');
       y += 5;
-      pdf.setFontSize(12);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text("Dr. Muhammad Ghani/ Cary Physicians Primary Care PLLC", pageWidth / 2, y, { align: 'center' });
-      y += 8;
       
-      // Add horizontal line
-      pdf.setLineWidth(0.3);
-      pdf.line(margin, y, pageWidth - margin, y);
-      y += 4;
-      
-      // Add fax number
-      pdf.setFontSize(9);
-      pdf.setFont('helvetica', 'normal');
-      pdf.text("Fax Number: +1 (855) 5764929", margin, y);
-      y += 6;
-      
-      // Patient information section
-      const fieldFontSize = 9;
-      pdf.setFontSize(fieldFontSize);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text("Last name", margin, y);
-      pdf.text("First name", margin + 65, y);
-      pdf.text("DOB", margin + 130, y);
-      y += 4;
-      
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(formData.lastName || "", margin, y);
-      pdf.text(formData.firstName || "", margin + 65, y);
-      pdf.text(formData.dob || "", margin + 130, y);
-      y += 6;
-      
-      // Add horizontal line
-      pdf.line(margin, y, pageWidth - margin, y);
-      y += 6;
-      
-      // Second row with address and MRN
-      pdf.setFont('helvetica', 'bold');
-      pdf.text("Address", margin, y);
-      pdf.text("MRN", margin + 130, y);
-      y += 4;
-      
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(formData.address || "", margin, y);
-      pdf.text(formData.mrn || "", margin + 130, y);
-      y += 6;
-      
-      // Add horizontal line
-      pdf.line(margin, y, pageWidth - margin, y);
-      y += 6;
-      
-      // Authorization section
-      pdf.setFont('helvetica', 'bold');
-      pdf.text("I authorize \"Cary Physicians Primary Care\" to obtain from:", margin, y);
-      y += 6;
-      
-      pdf.setFont('helvetica', 'bold');
-      pdf.text("Doctor or hospital name", margin, y);
-      pdf.text("Fax #", margin + 130, y);
-      y += 4;
-      
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(formData.doctorHospitalName || "", margin, y);
-      pdf.text(formData.faxNumber || "", margin + 130, y);
-      y += 6;
-      
-      pdf.setFont('helvetica', 'bold');
-      pdf.text("Address", margin, y);
-      y += 4;
-      
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(formData.doctorAddress || "", margin, y);
-      y += 6;
-      
-      // Add horizontal line
-      pdf.line(margin, y, pageWidth - margin, y);
-      y += 6;
-      
-      // Time period
-      pdf.setFont('helvetica', 'bold');
-      pdf.text("Any information about my health and health care, including the diagnosis, treatment,", margin, y);
+      pdf.setFont('','bold');
+      pdf.text("Requesting Facility:", leftCol, y);
+      pdf.setFont('', 'normal');
+      pdf.text("Cary Physicians Primary Care", leftCol + 40, y);
       y += 5;
-      pdf.text("or examination rendered to me during the period from:", margin, y);
-      y += 6;
       
+      pdf.setFont('','bold');
+      pdf.text("Provider:", leftCol, y);
+      pdf.setFont('', 'normal');
+      pdf.text("Dr. Muhammad Ghani", leftCol + 38, y);
+      y += 5;
+      
+      pdf.setFont('','bold');
+      pdf.text("Address:", leftCol, y);
+      pdf.setFont('', 'normal');
+      pdf.text("115 Parkway Office Court, Suite 104", leftCol + 38, y);
+      y += 5;
+      
+      pdf.setFont('','bold');
+      pdf.text("Telephone:", leftCol, y);
+      pdf.setFont('', 'normal');
+      pdf.text("(919) 230-7439", leftCol + 38, y);
+      y += 5;
+      
+      pdf.setFont('','bold');
+      pdf.text("Fax Number:", leftCol, y);
       pdf.setFont('helvetica', 'normal');
-      pdf.text(formData.dateFrom || "", margin + 30, y);
-      pdf.text("to", margin + 80, y);
-      pdf.text(formData.dateTo || "", margin + 100, y);
+      pdf.text("(919) 912-5442", leftCol + 38, y);
+      y += 5;
+      
+      pdf.setFont('','bold');
+      pdf.text("Email Address:", leftCol, y);
+      pdf.setFont('', 'italic');
+      pdf.text("office@caryphysicians.com", leftCol + 38, y);
+      
+      // Reset y to start of right column
+      y = 40;
+      
+      // Right column - TO
+      pdf.setFont('', 'bolditalic');
+      pdf.text("TO:", rightCol, y);
+      pdf.setFont('helvetica', 'italic');
+      y += 5;
+      
+      pdf.setFont('', 'bold');
+      pdf.text("Recipient Facility:", rightCol, y);
+      pdf.setFont('', 'normal');
+      pdf.text(formData.recipientFacility || "", rightCol + 38, y);
+      y += 5;
+      
+      pdf.setFont('', 'bold');
+      pdf.text("Recipient Provider:", rightCol, y);
+      pdf.setFont('', 'normal');
+      pdf.text(formData.recipientProvider || "", rightCol + 38, y);
+      y += 5;
+      
+      pdf.setFont('', 'bold');
+      pdf.text("Address:", rightCol, y);
+      pdf.setFont('', 'normal');
+      pdf.text(formData.recipientAddress || "", rightCol + 38, y);
+      y += 5;
+      
+      pdf.setFont('', 'bold');
+      pdf.text("Telephone:", rightCol, y);
+      pdf.setFont('', 'normal');
+      pdf.text(formData.recipientTelephone || "", rightCol + 38, y);
+      y += 5;
+      
+      pdf.setFont('', 'bold');
+      pdf.text("Fax Number:", rightCol, y);
+      pdf.setFont('', 'normal');
+      pdf.text(formData.recipientFaxNumber || "", rightCol + 38, y);
+      y += 5;
+      
+      pdf.setFont('', 'bold');
+      pdf.text("Email Address:", rightCol, y);
+      pdf.setFont('', 'normal');
+      pdf.text(formData.recipientEmail || "", rightCol + 38, y);
+      
+      // Patient Information section
+      y = 85;
+      // pdf.setFont('helvetica', 'bold');
+      pdf.setFont('italic');
+      pdf.text("Patient Information:", margin, y);
+      pdf.setFont('normal');
       y += 8;
       
-      // Add horizontal line
-      pdf.line(margin, y, pageWidth - margin, y);
+      // Add box for patient info
+      // pdf.setLineWidth(0.1);
+      // pdf.rect(margin, y, contentWidth, 24);
+      
+      // Patient info fields
+
+      pdf.setFontSize(10);
+      pdf.text(formData.lastName || "", margin + 5, y + 10);
+      pdf.text(formData.firstName || "", margin + (contentWidth / 3) + 5, y + 10);
+      pdf.text(formData.dob || "", margin + (contentWidth * 2 / 3) + 5, y + 10);
+
+
+      pdf.setFontSize(8);
+      pdf.text("Last name", margin + 5, y + 5);
+      pdf.text("First name", margin + (contentWidth / 3) + 5, y + 5);
+      pdf.text("DOB", margin + (contentWidth * 2 / 3) + 5, y + 5);
+      
+
+      
+      // Divider lines
+      // pdf.line(margin + (contentWidth / 3), y, margin + (contentWidth / 3), y + 15);
+      // pdf.line(margin + (contentWidth * 2 / 3), y, margin + (contentWidth * 2 / 3), y + 15);
+      
+      // Address and MRN
+      pdf.setFontSize(8);
+      pdf.text("Address", margin + 5, y + 15);
+      pdf.text("MRN", margin + (contentWidth * 2 / 3) + 5, y + 15);
+      
+      pdf.setFontSize(10);
+      pdf.text(formData.address || "", margin + 5, y + 20);
+      pdf.text(formData.mrn || "", margin + (contentWidth * 2 / 3) + 5, y + 20);
+      
+      // Line between address and MRN
+      // pdf.line(margin + (contentWidth * 2 / 3), y + 15, margin + (contentWidth * 2 / 3), y + 24);
+      
+      y += 30;
+      
+      // Authorization text
+      pdf.setFontSize(10);
+      pdf.text("I authorize Cary Physicians Primary Care to obtain any information about my health and health care, including", margin, y);
+      y += 5;
+      pdf.text("the diagnosis, treatment, or examination rendered to me during the period from:", margin, y);
       y += 6;
       
-      // Disclosure authorization
-      pdf.setFont('helvetica', 'bold');
-      pdf.text("I expressly authorize and consent to the disclosure of my health information related to (checked):", margin, y);
+      // Date range
+      pdf.text(formData.dateFrom || "_________________", margin + 60, y);
+      pdf.text("to", margin + 100, y);
+      pdf.text(formData.dateTo || "_________________", margin + 115, y);
+      y += 10;
+      
+      // Authorization boxes
+      pdf.text("I expressly authorize and consent to the disclosure of my health information related to (check all that apply):", margin, y);
       y += 8;
       
-      // Checkboxes for authorization
+      // Checkboxes
       const checkboxSize = 3.5;
       const checkboxTextIndent = 7;
-      const boxesY = y;
-      // Row 1: Alcohol and substance use
-pdf.rect(margin, boxesY, checkboxSize, checkboxSize); // draw the checkbox border
-if (formData.alcoholSubstanceUse) {
-  pdf.setFillColor(0, 0, 0); // black fill
-  pdf.rect(margin, boxesY, checkboxSize, checkboxSize, 'F'); // fill the checkbox
-}
-pdf.text("Alcohol and substance use", margin + checkboxTextIndent, boxesY + 2.5);
-
-// Row 1: Mental health
-pdf.rect(margin + 80, boxesY, checkboxSize, checkboxSize);
-if (formData.mentalHealth) {
-  pdf.setFillColor(0, 0, 0);
-  pdf.rect(margin + 80, boxesY, checkboxSize, checkboxSize, 'F');
-}
-pdf.text("Mental health", margin + 80 + checkboxTextIndent, boxesY + 2.5);
-
-// Row 2: STIs including HIV/AIDS
-pdf.rect(margin, boxesY + 8, checkboxSize, checkboxSize);
-if (formData.stisHiv) {
-  pdf.setFillColor(0, 0, 0);
-  pdf.rect(margin, boxesY + 8, checkboxSize, checkboxSize, 'F');
-}
-pdf.text("STIs including HIV/AIDS", margin + checkboxTextIndent, boxesY + 8 + 2.5);
-
-// Row 2: Genetic testing/counseling
-pdf.rect(margin + 80, boxesY + 8, checkboxSize, checkboxSize);
-if (formData.geneticTesting) {
-  pdf.setFillColor(0, 0, 0);
-  pdf.rect(margin + 80, boxesY + 8, checkboxSize, checkboxSize, 'F');
-}
-pdf.text("Genetic testing/counseling", margin + 80 + checkboxTextIndent, boxesY + 8 + 2.5);
-
-      y += 20;
       
-      // Confidentiality Policy
+      // Row 1
+      pdf.rect(margin, y, checkboxSize, checkboxSize);
+      if (formData.officeVisits) {
+        pdf.setFillColor(0, 0, 0);
+        pdf.rect(margin, y, checkboxSize, checkboxSize, 'F');
+      }
+      pdf.text("Office Visits: [one annual visit (of last year), last three regular visits]", margin + checkboxTextIndent, y + 3);
+      y += 7;
+      
+      // Row 2
+      pdf.rect(margin, y, checkboxSize, checkboxSize);
+      if (formData.labs) {
+        pdf.setFillColor(0, 0, 0);
+        pdf.rect(margin, y, checkboxSize, checkboxSize, 'F');
+      }
+      pdf.text("Labs: [of last two years]", margin + checkboxTextIndent, y + 3);
+      y += 7;
+      
+      // Row 3
+      pdf.rect(margin, y, checkboxSize, checkboxSize);
+      if (formData.diagnosticsImaging) {
+        pdf.setFillColor(0, 0, 0);
+        pdf.rect(margin, y, checkboxSize, checkboxSize, 'F');
+      }
+      pdf.text("Diagnostics and Imaging: [All Records]", margin + checkboxTextIndent, y + 3);
+      y += 7;
+      
+      // Row 4
+      pdf.rect(margin, y, checkboxSize, checkboxSize);
+      if (formData.proceduresOperations) {
+        pdf.setFillColor(0, 0, 0);
+        pdf.rect(margin, y, checkboxSize, checkboxSize, 'F');
+      }
+      pdf.text("Procedures/ Operations: [All Records]", margin + checkboxTextIndent, y + 3);
+      y += 7;
+      
+      // Row 5
+      pdf.rect(margin, y, checkboxSize, checkboxSize);
+      if (formData.mentalHealth) {
+        pdf.setFillColor(0, 0, 0);
+        pdf.rect(margin, y, checkboxSize, checkboxSize, 'F');
+      }
+      pdf.text("Mental health/counseling, Alcohol and substance use, STIs including HIV/AIDS, Genetic testing/counseling:", margin + checkboxTextIndent, y + 3);
+      y += 4;
+      pdf.text("[last three visits]", margin + checkboxTextIndent, y + 3);
+      y += 10;
+      
+      // Confidentiality policy
+      pdf.setFontSize(9);
       pdf.setFont('helvetica', 'bold');
-      pdf.text("CONFIDENTIALITY POLICY", pageWidth / 2, y, { align: 'center' });
+      pdf.text("CONFIDENTIALITY POLICY (PLEASE READ BEFORE SIGNING)", pageWidth / 2, y, { align: 'center' });
       y += 6;
       
       pdf.setFontSize(8);
       pdf.setFont('helvetica', 'normal');
-      const policyText = "Medical records are maintained to serve the patient and the health care team in accordance with all applicable legal and regulatory requirements. The information contained in medical records is considered highly confidential. All patient care information shall be regarded as confidential and available only to authorized users. The phrase \"medical records\" includes any protected health information (PHI), which includes test results, any medical reports, the medical record itself, claim files, and any correspondence relating to the care of a patient. Any disclosure of my protected health information to a different name, class of person, address, or fax number will require a separate authorization.";
+      const policyText = "Medical records are maintained to serve the patient and the health care team in accordance with all applicable legal and regulatory requirements. The information contained in medical records is considered highly confidential. All patient care information shall be regarded as confidential and available only to authorized users. The phrase \"medical records\" includes any protected health information (PHI), which includes test results, any medical reports, the medical record itself, claim files, and any correspondence relating to the care of a patient. Any disclosure of my protected health information to a different name, class of person, address or fax number will require a separate authorization. I have the right to revoke this authorization in writing, except to the extent that action has already been taken in reliance on this authorization. For the revocation of this authorization to be effective, the above name(s) or class of person(s) must receive the revocation in writing. This authorization shall expire one year from the date signed. After one year, a new authorization form is needed to continually disclose my PHI. I understand this authorization is voluntary and may refuse to sign it. I fully understand and accept the terms of this authorization. A copy of this authorization is valid as an original.";
       const policyLines = pdf.splitTextToSize(policyText, contentWidth);
       pdf.text(policyLines, margin, y);
-      y += policyLines.length * 3 + 4;
-      
-      const revocationText = "I have the right to revoke this authorization in writing, except to the extent that action has already been taken in reliance on this authorization. For the revocation of this authorization to be effective, the above name(s) or class of person(s) must receive the revocation in writing.";
-      const revocationLines = pdf.splitTextToSize(revocationText, contentWidth);
-      pdf.text(revocationLines, margin, y);
-      y += revocationLines.length * 3 + 4;
-      
-      const expirationText = "This authorization shall expire one year from the date signed. After one year, a new authorization form is needed to continually disclose my PHI. I understand this authorization is voluntary and may refuse to sign it.";
-      const expirationLines = pdf.splitTextToSize(expirationText, contentWidth);
-      pdf.text(expirationLines, margin, y);
-      y += expirationLines.length * 3 + 4;
-      
-      const acceptanceText = "I fully understand and accept the terms of this authorization. A copy of this authorization is valid as an original.";
-      const acceptanceLines = pdf.splitTextToSize(acceptanceText, contentWidth);
-      pdf.text(acceptanceLines, margin, y);
-      y += acceptanceLines.length * 3 + 8;
+      y += policyLines.length * 3 + 10;
       
       // Signature section
       pdf.setFontSize(9);
       pdf.setFont('helvetica', 'bold');
       pdf.text("Patient or authorized representative signature:", margin, y);
       pdf.text("Date:", margin + 130, y);
-      y += 4;
-      
+      pdf.setFont('helvetica', 'normal');
+
       // Add signature image
       if (signature) {
-        pdf.addImage(signature, 'PNG', margin, y, 45, 15);
+        pdf.addImage(signature, 'PNG', margin, y + 2, 45, 15);
       }
       
       // Add date
-      pdf.setFont('helvetica', 'normal');
       pdf.text(formData.date, margin + 130, y + 7);
       
       y += 20;
-      
       pdf.setFont('helvetica', 'bold');
-      pdf.text("Patient or authorized representative name:", margin, y);
-      y += 4;
+
       
+      pdf.text("Patient or authorized representative name:", margin, y);
+      y += 5;
       pdf.setFont('helvetica', 'normal');
+
       pdf.text(`${formData.firstName} ${formData.lastName}`, margin, y);
+      
+      // Add footer
+      // pdf.setFontSize(7);
+      // pdf.text("Cary Physicians Primary Care PLLC, 115 Parkway Office Court Suite 104", pageWidth / 2, pageHeight - 15, { align: 'center' });
       
       // Save PDF with patient name
       const fileName = `Medical-Records-Release-${formData.lastName}-${formData.firstName}.pdf`;
@@ -366,11 +451,12 @@ pdf.text("Genetic testing/counseling", margin + 80 + checkboxTextIndent, boxesY 
 
     }
   };
+  
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
-    // Uncomment the following line if you want to reset the form when closing the modal
-    // resetForm();
+    resetForm();
   };
+  
   const resetForm = () => {
     setFormData({
       lastName: '',
@@ -378,29 +464,30 @@ pdf.text("Genetic testing/counseling", margin + 80 + checkboxTextIndent, boxesY 
       dob: '',
       address: '',
       mrn: '',
-      doctorHospitalName: '',
-      faxNumber: '',
-      doctorAddress: '',
+      recipientFacility: '',
+      recipientProvider: '',
+      recipientAddress: '',
+      recipientTelephone: '',
+      recipientFaxNumber: '',
+      recipientEmail: '',
       dateFrom: '',
       dateTo: '',
-      alcoholSubstanceUse: false,
+      officeVisits: false,
+      labs: false,
+      diagnosticsImaging: false,
+      proceduresOperations: false,
       mentalHealth: false,
-      stisHiv: false,
-      geneticTesting: false,
       date: new Date().toISOString().split('T')[0]
     });
     clearSignature();
   };
 
-
-
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-       {isSubmitting && (
+      {isSubmitting && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white mb-4"></div>
-            {/* <p className="text-white text-lg font-semibold">Submitting form...</p> */}
           </div>
         </div>
       )}
@@ -429,17 +516,150 @@ pdf.text("Genetic testing/counseling", margin + 80 + checkboxTextIndent, boxesY 
           </div>
         </div>
       )}
+      
       {!showPreview ? (
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md">
           <div className="px-4 py-5 sm:p-6">
-            <h1 className="text-2xl font-bold text-gray-900 text-center mb-6">Authorization for Release of Medical Records</h1>
-            <h2 className="text-lg font-semibold text-gray-800 text-center mb-6">Dr. Muhammad Ghani/ Cary Physicians Primary Care PLLC</h2>
-            <p className="text-center mb-4 text-sm sm:text-base">Fax Number: +1 (855) 576-4929</p>
+            <div className="flex items-center justify-center mb-6">
+              <img src={logo} alt="Cary Physicians Logo" className="h-16 mr-3" />
+              <div>
+                <h1 className="text-2xl font-bold text-purple-800 text-center">Authorization for Release of Medical Records</h1>
+                <h2 className="text-lg font-semibold text-gray-800 text-center">Cary Physicians Primary Care PLLC</h2>
+              </div>
+            </div>
             
             <form onSubmit={handlePreview} className="space-y-6 mt-6">
+              {/* Date field */}
+              <div className="flex justify-end">
+                <div className="w-1/4">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                  <input
+                    type="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    required
+                  />
+                </div>
+              </div>
+              
+              {/* Request From and To Sections */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Left Column - Request From (Static) */}
+                <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
+                  <h2 className="text-lg font-bold text-gray-800 mb-4">REQUEST FROM:</h2>
+                  
+                  <div className="space-y-2">
+                    <div className="grid grid-cols-3">
+                      <span className="text-sm font-semibold">Requesting Facility:</span>
+                      <span className="col-span-2 text-sm">Cary Physicians Primary Care</span>
+                    </div>
+                    
+                    <div className="grid grid-cols-3">
+                      <span className="text-sm font-semibold">Provider:</span>
+                      <span className="col-span-2 text-sm">Dr. Muhammad Ghani</span>
+                    </div>
+                    
+                    <div className="grid grid-cols-3">
+                      <span className="text-sm font-semibold">Address:</span>
+                      <span className="col-span-2 text-sm">115 Parkway Office Court, Suite 104</span>
+                    </div>
+                    
+                    <div className="grid grid-cols-3">
+                      <span className="text-sm font-semibold">Telephone:</span>
+                      <span className="col-span-2 text-sm">(919) 230-7439</span>
+                    </div>
+                    
+                    <div className="grid grid-cols-3">
+                      <span className="text-sm font-semibold">Fax Number:</span>
+                      <span className="col-span-2 text-sm">(919) 912-5442</span>
+                    </div>
+                    
+                    <div className="grid grid-cols-3">
+                      <span className="text-sm font-semibold">Email Address:</span>
+                      <span className="col-span-2 text-sm">office@caryphysicians.com</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Right Column - TO (User input) */}
+                <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
+                  <h2 className="text-lg font-bold text-gray-800 mb-4">TO:</h2>
+                  
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Recipient Facility</label>
+                      <input
+                        type="text"
+                        name="recipientFacility"
+                        value={formData.recipientFacility}
+                        onChange={handleChange}
+                        className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Recipient Provider</label>
+                      <input
+                        type="text"
+                        name="recipientProvider"
+                        value={formData.recipientProvider}
+                        onChange={handleChange}
+                        className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                      <input
+                        type="text"
+                        name="recipientAddress"
+                        value={formData.recipientAddress}
+                        onChange={handleChange}
+                        className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Telephone</label>
+                      <input
+                        type="text"
+                        name="recipientTelephone"
+                        value={formData.recipientTelephone}
+                        onChange={handleChange}
+                        className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Fax Number</label>
+                      <input
+                        type="text"
+                        name="recipientFaxNumber"
+                        value={formData.recipientFaxNumber}
+                        onChange={handleChange}
+                        className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                      <input
+                        type="email"
+                        name="recipientEmail"
+                        value={formData.recipientEmail}
+                        onChange={handleChange}
+                        className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
               {/* Patient Information */}
               <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Patient Information</h2>
+                <h2 className="text-lg font-semibold italic text-gray-800 mb-4">Patient Information:</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
                   <div>
@@ -467,14 +687,13 @@ pdf.text("Genetic testing/counseling", margin + 80 + checkboxTextIndent, boxesY 
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">DOB</label>
                     <input
                       type="date"
                       name="dob"
                       value={formData.dob}
                       onChange={handleChange}
                       className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      required
                     />
                   </div>
                 </div>
@@ -488,7 +707,6 @@ pdf.text("Genetic testing/counseling", margin + 80 + checkboxTextIndent, boxesY 
                       value={formData.address}
                       onChange={handleChange}
                       className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      required
                     />
                   </div>
                   
@@ -505,364 +723,330 @@ pdf.text("Genetic testing/counseling", margin + 80 + checkboxTextIndent, boxesY 
                 </div>
               </div>
               
-              {/* Authorization Section */}
+              {/* Date Range Section */}
               <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Authorization Details</h2>
-                <p className="mb-4 text-sm">I authorize "Cary Physicians Primary Care" to obtain from:</p>
+                <p className="text-sm text-gray-700 mb-4">
+                  I authorize "Cary Physicians Primary Care" to obtain any information about my health and health care, including
+                  the diagnosis, treatment, or examination rendered to me during the period from:
+                </p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Doctor or hospital name</label>
-                    <input
-                      type="text"
-                      name="doctorHospitalName"
-                      value={formData.doctorHospitalName}
-                      onChange={handleChange}
-                      className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Fax # (Optional)</label>
-                    <input
-                      type="text"
-                      name="faxNumber"
-                      value={formData.faxNumber}
-                      onChange={handleChange}
-                      className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
-                
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                  <input
-                    type="text"
-                    name="doctorAddress"
-                    value={formData.doctorAddress}
-                    onChange={handleChange}
-                    className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    required
-                  />
-                </div>
-                
-                <p className="mb-2 text-sm">Any information about my health and health care, including the diagnosis, treatment, or examination rendered to me during the period from:</p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">From</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">From Date</label>
                     <input
                       type="date"
                       name="dateFrom"
                       value={formData.dateFrom}
                       onChange={handleChange}
                       className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      required
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">To</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">To Date</label>
                     <input
                       type="date"
                       name="dateTo"
                       value={formData.dateTo}
                       onChange={handleChange}
                       className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      required
                     />
                   </div>
                 </div>
               </div>
               
-              {/* Disclosure Authorization */}
+              {/* Authorization Checkboxes */}
               <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Health Information Authorization</h2>
-                <p className="mb-4 text-sm">I expressly authorize and consent to the disclosure of my health information related to (check all that apply):</p>
+                <p className="text-sm text-gray-700 mb-4">
+                  I expressly authorize and consent to the disclosure of my health information related to (check all that apply):
+                </p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-2">
                   <div className="flex items-start">
-                    <input
-                      type="checkbox"
-                      id="alcoholSubstanceUse"
-                      name="alcoholSubstanceUse"
-                      checked={formData.alcoholSubstanceUse}
-                      onChange={handleChange}
-                      className="mt-1 mr-2"
-                    />
-                    <label htmlFor="alcoholSubstanceUse" className="block text-sm font-medium text-gray-700">
-                      Alcohol and substance use
-                    </label>
+                    <div className="flex items-center h-5">
+                      <input
+                        id="officeVisits"
+                        name="officeVisits"
+                        type="checkbox"
+                        checked={formData.officeVisits}
+                        onChange={handleChange}
+                        className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <label htmlFor="officeVisits" className="font-medium text-gray-700">
+                        Office Visits: [one annual visit (of last year), last three regular visits]
+                      </label>
+                    </div>
                   </div>
                   
                   <div className="flex items-start">
-                    <input
-                      type="checkbox"
-                      id="mentalHealth"
-                      name="mentalHealth"
-                      checked={formData.mentalHealth}
-                      onChange={handleChange}
-                      className="mt-1 mr-2"
-                    />
-                    <label htmlFor="mentalHealth" className="block text-sm font-medium text-gray-700">
-                      Mental health
-                    </label>
+                    <div className="flex items-center h-5">
+                      <input
+                        id="labs"
+                        name="labs"
+                        type="checkbox"
+                        checked={formData.labs}
+                        onChange={handleChange}
+                        className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <label htmlFor="labs" className="font-medium text-gray-700">
+                        Labs: [of last two years]
+                      </label>
+                    </div>
                   </div>
                   
                   <div className="flex items-start">
-                    <input
-                      type="checkbox"
-                      id="stisHiv"
-                      name="stisHiv"
-                      checked={formData.stisHiv}
-                      onChange={handleChange}
-                      className="mt-1 mr-2"
-                    />
-                    <label htmlFor="stisHiv" className="block text-sm font-medium text-gray-700">
-                      STIs including HIV/AIDS
-                    </label>
+                    <div className="flex items-center h-5">
+                      <input
+                        id="diagnosticsImaging"
+                        name="diagnosticsImaging"
+                        type="checkbox"
+                        checked={formData.diagnosticsImaging}
+                        onChange={handleChange}
+                        className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <label htmlFor="diagnosticsImaging" className="font-medium text-gray-700">
+                        Diagnostics and Imaging: [All Records]
+                      </label>
+                    </div>
                   </div>
                   
                   <div className="flex items-start">
-                    <input
-                      type="checkbox"
-                      id="geneticTesting"
-                      name="geneticTesting"
-                      checked={formData.geneticTesting}
-                      onChange={handleChange}
-                      className="mt-1 mr-2"
-                    />
-                    <label htmlFor="geneticTesting" className="block text-sm font-medium text-gray-700">
-                      Genetic testing/counseling
-                    </label>
+                    <div className="flex items-center h-5">
+                      <input
+                        id="proceduresOperations"
+                        name="proceduresOperations"
+                        type="checkbox"
+                        checked={formData.proceduresOperations}
+                        onChange={handleChange}
+                        className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <label htmlFor="proceduresOperations" className="font-medium text-gray-700">
+                        Procedures/ Operations: [All Records]
+                      </label>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <div className="flex items-center h-5">
+                      <input
+                        id="mentalHealth"
+                        name="mentalHealth"
+                        type="checkbox"
+                        checked={formData.mentalHealth}
+                        onChange={handleChange}
+                        className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <label htmlFor="mentalHealth" className="font-medium text-gray-700">
+                        Mental health/counseling, Alcohol and substance use, STIs including HIV/AIDS, Genetic testing/counseling: [last three visits]
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
               
               {/* Confidentiality Policy */}
               <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Confidentiality Policy</h2>
-                <div className="prose max-w-none text-sm">
-                  <p className="mb-2">
-                    Medical records are maintained to serve the patient and the health care team in accordance with all applicable legal and regulatory requirements. The information contained in medical records is considered highly confidential. All patient care information shall be regarded as confidential and available only to authorized users. The phrase "medical records" includes any protected health information (PHI), which includes test results, any medical reports, the medical record itself, claim files, and any correspondence relating to the care of a patient. Any disclosure of my protected health information to a different name, class of person, address, or fax number will require a separate authorization.
-                  </p>
-                  <p className="mb-2">
-                    I have the right to revoke this authorization in writing, except to the extent that action has already been taken in reliance on this authorization. For the revocation of this authorization to be effective, the above name(s) or class of person(s) must receive the revocation in writing.
-                  </p>
-                  <p className="mb-2">
-                    This authorization shall expire one year from the date signed. After one year, a new authorization form is needed to continually disclose my PHI. I understand this authorization is voluntary and may refuse to sign it.
-                  </p>
-                  <p>
-                    I fully understand and accept the terms of this authorization. A copy of this authorization is valid as an original.
-                  </p>
-                </div>
+                <h3 className="text-center font-bold text-md mb-3">CONFIDENTIALITY POLICY (PLEASE READ BEFORE SIGNING)</h3>
+                <p className="text-xs text-gray-700 mb-4">
+                  Medical records are maintained to serve the patient and the health care team in accordance with all applicable legal and regulatory requirements. The information contained in medical records is considered highly confidential. All patient care information shall be regarded as confidential and available only to authorized users. The phrase "medical records" includes any protected health information (PHI), which includes test results, any medical reports, the medical record itself, claim files, and any correspondence relating to the care of a patient. Any disclosure of my protected health information to a different name, class of person, address or fax number will require a separate authorization. I have the right to revoke this authorization in writing, except to the extent that action has already been taken in reliance on this authorization. For the revocation of this authorization to be effective, the above name(s) or class of person(s) must receive the revocation in writing. This authorization shall expire one year from the date signed. After one year, a new authorization form is needed to continually disclose my PHI. I understand this authorization is voluntary and may refuse to sign it. I fully understand and accept the terms of this authorization. A copy of this authorization is valid as an original.
+                </p>
               </div>
               
               {/* Signature Section */}
               <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Signature</h2>
-                
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Patient or authorized representative signature
+                    Patient or authorized representative signature:
                   </label>
-                  <div className="border border-gray-300 rounded-md p-1 bg-white">
+                  <div className="border border-gray-300 rounded-md overflow-hidden bg-white">
                     <SignatureCanvas
                       ref={sigCanvas}
                       penColor="black"
                       canvasProps={{
-                        width: 500,
-                        height: 200,
-                        className: 'w-full h-48 border border-gray-300 rounded-md',
+                        width: 1000,
+                        height: 300,
+                        className: "signature-canvas"
                       }}
                     />
                   </div>
-                  <div className="mt-2 flex">
+                  <div className="mt-2 flex space-x-2">
                     <button
                       type="button"
                       onClick={clearSignature}
-                      className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      className="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-xs leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
                       Clear Signature
                     </button>
                   </div>
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                    <input
-                      type="date"
-                      name="date"
-                      value={formData.date}
-                      onChange={handleChange}
-                      className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      required
-                    />
-                  </div>
-                </div>
               </div>
               
-              <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 mt-6">
+              {/* Submit Buttons */}
+              <div className="flex justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Reset Form
+                </button>
                 <button
                   type="submit"
                   className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  Preview Form
+                  Preview & Submit
                 </button>
               </div>
             </form>
           </div>
         </div>
       ) : (
+        // Preview mode
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md">
           <div className="px-4 py-5 sm:p-6">
-            <h1 className="text-2xl font-bold text-gray-900 text-center mb-6">Review Your Form Submission</h1>
-            <h2 className="text-lg font-semibold text-gray-800 text-center mb-4">Authorization for Release of Medical Records</h2>
-            
-            <div className="bg-gray-50 p-4 rounded-md border border-gray-200 mb-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Patient Information</h2>
-              <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2">
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Name</dt>
-                  <dd className="text-sm text-gray-900">{formData.firstName} {formData.lastName}</dd>
-                </div>
-                
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Date of Birth</dt>
-                  <dd className="text-sm text-gray-900">{formData.dob}</dd>
-                </div>
-                
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Address</dt>
-                  <dd className="text-sm text-gray-900">{formData.address}</dd>
-                </div>
-                
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">MRN</dt>
-                  <dd className="text-sm text-gray-900">{formData.mrn || "Not provided"}</dd>
-                </div>
-              </dl>
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center">
+                <img src={logo} alt="Cary Physicians Logo" className="h-12 mr-3" />
+                <h1 className="text-xl font-bold text-purple-800">Authorization for Release of Medical Records</h1>
               </div>
-            
-            <div className="bg-gray-50 p-4 rounded-md border border-gray-200 mb-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Authorization Details</h2>
-              <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2">
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Doctor/Hospital Name</dt>
-                  <dd className="text-sm text-gray-900">{formData.doctorHospitalName}</dd>
-                </div>
-                
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Fax Number</dt>
-                  <dd className="text-sm text-gray-900">{formData.faxNumber || "Not provided"}</dd>
-                </div>
-                
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Address</dt>
-                  <dd className="text-sm text-gray-900">{formData.doctorAddress}</dd>
-                </div>
-                
-                <div>
-                  <dt className="text-sm font-medium text-gray-500">Time Period</dt>
-                  <dd className="text-sm text-gray-900">From {formData.dateFrom} to {formData.dateTo}</dd>
-                </div>
-              </dl>
-            </div>
-            
-            <div className="bg-gray-50 p-4 rounded-md border border-gray-200 mb-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Health Information Authorization</h2>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2">
-                <li className="flex items-center">
-                  <span className={`inline-block w-5 h-5 mr-2 rounded border ${formData.alcoholSubstanceUse ? 'bg-indigo-600 border-indigo-600' : 'border-gray-300'}`}>
-                    {formData.alcoholSubstanceUse && (
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                      </svg>
-                    )}
-                  </span>
-                  <span className="text-sm text-gray-700">Alcohol and substance use</span>
-                </li>
-                
-                <li className="flex items-center">
-                  <span className={`inline-block w-5 h-5 mr-2 rounded border ${formData.mentalHealth ? 'bg-indigo-600 border-indigo-600' : 'border-gray-300'}`}>
-                    {formData.mentalHealth && (
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                      </svg>
-                    )}
-                  </span>
-                  <span className="text-sm text-gray-700">Mental health</span>
-                </li>
-                
-                <li className="flex items-center">
-                  <span className={`inline-block w-5 h-5 mr-2 rounded border ${formData.stisHiv ? 'bg-indigo-600 border-indigo-600' : 'border-gray-300'}`}>
-                    {formData.stisHiv && (
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                      </svg>
-                    )}
-                  </span>
-                  <span className="text-sm text-gray-700">STIs including HIV/AIDS</span>
-                </li>
-                
-                <li className="flex items-center">
-                  <span className={`inline-block w-5 h-5 mr-2 rounded border ${formData.geneticTesting ? 'bg-indigo-600 border-indigo-600' : 'border-gray-300'}`}>
-                    {formData.geneticTesting && (
-                      <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                      </svg>
-                    )}
-                  </span>
-                  <span className="text-sm text-gray-700">Genetic testing/counseling</span>
-                </li>
-              </ul>
-            </div>
-            
-            <div className="bg-gray-50 p-4 rounded-md border border-gray-200 mb-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Signature</h2>
-              {signature && (
-                <div className="mb-4">
-                  <p className="text-sm font-medium text-gray-500 mb-2">Patient or authorized representative signature:</p>
-                  <img src={signature} alt="Signature" className="h-20 max-w-full border border-gray-300 rounded-md bg-white p-2" />
-                </div>
-              )}
-              
-              <div className="mt-4">
-                <p className="text-sm font-medium text-gray-500">Date:</p>
-                <p className="text-sm text-gray-900">{formData.date}</p>
+              <div>
+                <p className="text-sm font-medium text-gray-700">Date: {formData.date}</p>
               </div>
             </div>
             
-            <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-3 mt-6">
-              <button
-                type="button"
-                onClick={() => setShowPreview(false)}
-                className="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Edit Form
-              </button>
+            {/* Preview content */}
+            <div className="space-y-6 border-t border-gray-200 pt-4">
+              {/* Request From and To */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h2 className="text-md font-bold text-gray-800 mb-3">REQUEST FROM:</h2>
+                  <div className="space-y-1 text-sm">
+                    <p><span className="font-semibold">Requesting Facility:</span> Cary Physicians Primary Care</p>
+                    <p><span className="font-semibold">Provider:</span> Dr. Muhammad Ghani</p>
+                    <p><span className="font-semibold">Address:</span> 115 Parkway Office Court, Suite 104</p>
+                    <p><span className="font-semibold">Telephone:</span> (919) 230-7439</p>
+                    <p><span className="font-semibold">Fax Number:</span> (919) 912-5442</p>
+                    <p><span className="font-semibold">Email Address:</span> office@caryphysicians.com</p>
+                  </div>
+                </div>
+                
+                <div>
+                  <h2 className="text-md font-bold text-gray-800 mb-3">TO:</h2>
+                  <div className="space-y-1 text-sm">
+                    <p><span className="font-semibold">Recipient Facility:</span> {formData.recipientFacility || "N/A"}</p>
+                    <p><span className="font-semibold">Recipient Provider:</span> {formData.recipientProvider || "N/A"}</p>
+                    <p><span className="font-semibold">Address:</span> {formData.recipientAddress || "N/A"}</p>
+                    <p><span className="font-semibold">Telephone:</span> {formData.recipientTelephone || "N/A"}</p>
+                    <p><span className="font-semibold">Fax Number:</span> {formData.recipientFaxNumber || "N/A"}</p>
+                    <p><span className="font-semibold">Email Address:</span> {formData.recipientEmail || "N/A"}</p>
+                  </div>
+                </div>
+              </div>
               
-              {/* <button
-                type="button"
-                onClick={generatePDF}
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-              >
-                Download PDF
-              </button> */}
+              {/* Patient Information */}
+              <div>
+                <h2 className="text-md font-bold italic text-gray-800 mb-3">Patient Information:</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
+                  <div><span className="font-semibold">Last name:</span> {formData.lastName}</div>
+                  <div><span className="font-semibold">First name:</span> {formData.firstName}</div>
+                  <div><span className="font-semibold">DOB:</span> {formData.dob || "N/A"}</div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div><span className="font-semibold">Address:</span> {formData.address || "N/A"}</div>
+                  <div><span className="font-semibold">MRN:</span> {formData.mrn || "N/A"}</div>
+                </div>
+              </div>
               
-              <button
-                type="button"
-                onClick={handleSubmit}
-                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Download and Submit Form
-              </button>
+              {/* Date Range */}
+              <div>
+                <p className="text-sm">
+                  I authorize "Cary Physicians Primary Care" to obtain any information about my health and health care, including
+                  the diagnosis, treatment, or examination rendered to me during the period from 
+                  <span className="font-semibold"> {formData.dateFrom || "_________"} </span> to 
+                  <span className="font-semibold"> {formData.dateTo || "_________"}</span>.
+                </p>
+              </div>
+              
+              {/* Authorization Checkboxes */}
+              <div>
+                <p className="text-sm mb-2">
+                  I expressly authorize and consent to the disclosure of my health information related to:
+                </p>
+                <ul className="list-inside space-y-1 text-sm">
+                  {formData.officeVisits && (
+                    <li>✓ Office Visits: [one annual visit (of last year), last three regular visits]</li>
+                  )}
+                  {formData.labs && (
+                    <li>✓ Labs: [of last two years]</li>
+                  )}
+                  {formData.diagnosticsImaging && (
+                    <li>✓ Diagnostics and Imaging: [All Records]</li>
+                  )}
+                  {formData.proceduresOperations && (
+                    <li>✓ Procedures/ Operations: [All Records]</li>
+                  )}
+                  {formData.mentalHealth && (
+                    <li>✓ Mental health/counseling, Alcohol and substance use, STIs including HIV/AIDS, Genetic testing/counseling: [last three visits]</li>
+                  )}
+                </ul>
+              </div>
+              
+              {/* Signature */}
+              <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm font-semibold mb-1">Patient or authorized representative signature:</p>
+                    {signature && (
+                      <img src={signature} alt="Signature" className="h-16" />
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold mb-1">Date:</p>
+                    <p>{formData.date}</p>
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <p className="text-sm font-semibold mb-1">Patient or authorized representative name:</p>
+                  <p>{`${formData.firstName} ${formData.lastName}`}</p>
+                </div>
+              </div>
+              
+              {/* Submit Buttons */}
+              <div className="flex justify-end space-x-3 border-t border-gray-200 pt-4">
+                <button
+                  type="button"
+                  onClick={() => setShowPreview(false)}
+                  className="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Back to Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Form"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
       )}
+      
+      <footer className="mt-8 text-center text-sm text-gray-500">
+        <p>Cary Physicians Primary Care PLLC, 115 Parkway Office Court, Suite 104</p>
+      </footer>
     </div>
   );
 }
