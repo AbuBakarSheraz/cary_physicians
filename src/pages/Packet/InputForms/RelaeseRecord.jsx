@@ -874,7 +874,7 @@ pdf.text(formData.date, pageWidth - margin - 28, y);
                       penColor="black"
                       canvasProps={{
                         width: 1000,
-                        height: 300,
+                        height: 200,
                         className: "signature-canvas"
                       }}
                     />
