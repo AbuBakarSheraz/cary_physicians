@@ -87,7 +87,7 @@ export default function Footer() {
           <div className="text-gray-400 text-sm">
             Made with love on Earth By {" "}
             <a 
-              href="www.linkedin.com/in/abubakar-sheraz-350085222" 
+              href="https://www.linkedin.com/in/abubakar-sheraz-350085222/" 
               target="_blank"
               rel="noopener noreferrer" 
               className="text-emerald-300 hover:text-emerald-200 transition-colors underline"
