@@ -24,6 +24,10 @@ export default function MedicalRecordsRelease() {
     // Date Range for Records
     dateFrom: '',
     dateTo: '',
+
+    //Yearly Record
+
+    year: '',
     
     // Authorization Checkboxes
     officeVisits: false,
@@ -60,11 +64,27 @@ export default function MedicalRecordsRelease() {
     };
   }, []);
 
+  const clearAll = () => {
+    setFormData({
+      year: '',
+      dateFrom: '',
+      dateTo: ''
+    });
+  };
+
+  const yearOptions = [
+    { id: 'previous-1-year', label: 'Previous 1 year', value: 'previous 1 year' },
+    { id: 'previous-2-years', label: 'Previous 2 years', value: 'previous 2 years' },
+    { id: 'previous-3-years', label: 'Previous 3 years', value: 'previous 3 years' },
+    { id: 'previous-4-years', label: 'Previous 4 years', value: 'previous 4 years' },
+    { id: 'complete-record', label: 'Complete Record', value: 'Complete Record' }
+  ];
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === 'checkbox'  ? checked : value
     }));
   };
 
@@ -219,9 +239,13 @@ pdf.text(formData.date, pageWidth - margin - 28, y);
       
       pdf.setFont('', 'bold');
       pdf.text("Address:", rightCol, y);
+      
       pdf.setFont('', 'normal');
-      pdf.text(formData.recipientAddress || "", rightCol + 38, y);
-      y += 5;
+      const wrappedAddress = pdf.splitTextToSize(formData.recipientAddress || "", 72); // 2 inches = 72 * 2
+      pdf.text(wrappedAddress, rightCol + 38, y);
+      
+      y += wrappedAddress.length * 5; // Adjust vertical spacing
+      
       
       pdf.setFont('', 'bold');
       pdf.text("Telephone:", rightCol, y);
@@ -274,8 +298,7 @@ pdf.text(formData.date, pageWidth - margin - 28, y);
       // Address and MRN
       pdf.setFontSize(8);
       pdf.text("Address", margin + 5, y + 15);
-      pdf.text("MRN", margin + (contentWidth * 2 / 3) + 5, y + 15);
-      
+      pdf.text("MRN", margin + (contentWidth * 2 / 3) + 5, y + 15);      
       pdf.setFontSize(10);
       pdf.text(formData.address || "", margin + 5, y + 20);
       pdf.text(formData.mrn || "", margin + (contentWidth * 2 / 3) + 5, y + 20);
@@ -287,16 +310,43 @@ pdf.text(formData.date, pageWidth - margin - 28, y);
       
       // Authorization text
       pdf.setFontSize(10);
-      pdf.text("I authorize Cary Physicians Primary Care to obtain any information about my health and health care, including", margin, y);
-      y += 5;
-      pdf.text("the diagnosis, treatment, or examination rendered to me during the period from:", margin, y);
-      y += 6;
+
+      if (formData.dateFrom && formData.dateTo) {
+        // Date Range case
+        pdf.text("I authorize Cary Physicians Primary Care to obtain any information about my health and health care, including", margin, y);
+        y += 5;
+        pdf.text("the diagnosis, treatment, or examination rendered to me during the period from:", margin, y);
+        y += 6;
+        pdf.text(formData.dateFrom || "_________________", margin + 60, y);
+        pdf.text("to", margin + 100, y);
+        pdf.text(formData.dateTo || "_________________", margin + 115, y);
+        y += 10;
+      } else if (formData.year) {
+        pdf.setFontSize(10);
+
+        // First line
+        pdf.setFont("helvetica", "normal");
+        pdf.text("I authorize Cary Physicians Primary Care to obtain any information about my health and health care, including", margin, y);
+        y += 5;
+        
+        // Second line before the year
+        const line2 = "the diagnosis, treatment, or examination rendered to me during ";
+        pdf.text(line2, margin, y);
+        
+        // Add year right after "during "
+        const textWidth = pdf.getTextWidth(line2); // width of normal text
+        pdf.setFont("helvetica", "bold");
+        pdf.text(formData.year || "_________________", margin + textWidth, y);
+        
+        y += 10;
+        
+        // Reset font
+        pdf.setFont("helvetica", "normal");
+        // reset font
+        
+        
+      }
       
-      // Date range
-      pdf.text(formData.dateFrom || "_________________", margin + 60, y);
-      pdf.text("to", margin + 100, y);
-      pdf.text(formData.dateTo || "_________________", margin + 115, y);
-      y += 10;
       
       // Authorization boxes
       pdf.text("I expressly authorize and consent to the disclosure of my health information related to (check all that apply):", margin, y);
@@ -730,31 +780,78 @@ pdf.text(formData.date, pageWidth - margin - 28, y);
                   the diagnosis, treatment, or examination rendered to me during the period from:
                 </p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">From Date</label>
-                    <input
-                      type="date"
-                      name="dateFrom"
-                      value={formData.dateFrom}
-                      onChange={handleChange}
-                      className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">To Date</label>
-                    <input
-                      type="date"
-                      name="dateTo"
-                      value={formData.dateTo}
-                      onChange={handleChange}
-                      className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    />
-                  </div>
-                </div>
+                <div className="bg-white p-6 rounded-lg shadow-sm">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">Select Your Record Period</h3>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-3">
+          <label className="block text-md font-medium text-gray-700 mb-2">Select Yearly</label>
+          
+          <div className="space-y-2">
+            {yearOptions.map((option) => (
+              <div key={option.id} className="flex items-center">
+                <input
+                  id={option.id}
+                  type="radio"
+                  name="year"
+                  value={option.value}
+                  checked={formData.year === option.value}
+                  onChange={handleChange}
+                  disabled={!!(formData.dateFrom || formData.dateTo)}
+                  className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                />
+                <label htmlFor={option.id} className="ml-3 text-sm text-gray-700">
+                  {option.label}
+                </label>
               </div>
-              
+            ))}
+            
+            <div className="flex items-center pt-1">
+              <button
+                type="button"
+                onClick={clearAll}
+                className="text-sm text-indigo-600 hover:text-indigo-800 focus:outline-none"
+              >
+                Clear Selection
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="dateFrom" className="block text-md font-medium text-gray-700 mb-1">
+              From Date
+            </label>
+            <input
+              type="date"
+              id="dateFrom"
+              name="dateFrom"
+              value={formData.dateFrom}
+              onChange={handleChange}
+              disabled={!!formData.year}
+              className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+          
+          <div>
+            <label htmlFor="dateTo" className="block text-md font-medium text-gray-700 mb-1">
+              To Date
+            </label>
+            <input
+              type="date"
+              id="dateTo"
+              name="dateTo"
+              value={formData.dateTo}
+              onChange={handleChange}
+              disabled={!!formData.year}
+              className="block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+            </div>
               {/* Authorization Checkboxes */}
               <div className="bg-gray-50 p-4 rounded-md border border-gray-200">
                 <p className="text-sm text-gray-700 mb-4">
@@ -968,6 +1065,8 @@ pdf.text(formData.date, pageWidth - margin - 28, y);
               </div>
               
               {/* Date Range */}
+              
+             { (formData.dateFrom && formData.dateTo) && (
               <div>
                 <p className="text-sm">
                   I authorize "Cary Physicians Primary Care" to obtain any information about my health and health care, including
@@ -976,6 +1075,20 @@ pdf.text(formData.date, pageWidth - margin - 28, y);
                   <span className="font-semibold"> {formData.dateTo || "_________"}</span>.
                 </p>
               </div>
+             )
+              }
+             {
+              formData.year && (
+              <div>
+                <p className="text-sm">
+                I authorize "Cary Physicians Primary Care" to obtain any information about my health and health care, including
+                the diagnosis, treatment, or examination rendered to me during the  
+                <span className="font-semibold"> {formData.year || "_________"} </span>
+               </p>
+            </div>
+               )
+             }  
+
               
               {/* Authorization Checkboxes */}
               <div>
