@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet";
+// import { Helmet } from "react-helmet";
 'use server';
 
 
@@ -73,6 +73,8 @@ export default function PatientToolsTabs() {
 
   return (
     <>
+
+
       <Helmet>
         {/* <title>Patient Tools | Digital Healthcare Services</title> */}
         <meta name="description" content="Digital tools for patients' convenience including easy check-in, appointment reminders, and virtual visits." />
@@ -83,6 +85,8 @@ export default function PatientToolsTabs() {
 
        
       </Helmet>
+
+      
 
       <section id="patient-tools" className="py-8  ">
         <div className="container mx-auto px-4 max-w-7xl">

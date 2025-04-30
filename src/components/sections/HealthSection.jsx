@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from "react-helmet";
 'use server';
 
 
@@ -176,38 +175,7 @@ const HealthAccess = () => {
 const HealthSections = () => {
   return (
     <>
-      <Helmet>
-        {/* <title>Patient Portal & Health Access | Manage Your Health Online</title> */}
-        <meta name="description" content="Access your health information online through our secure Patient Portal and healow smartphone app. View lab results, book appointments, and more." />
-        <meta name="keywords" content="patient portal, healow app, online health access, medical records, telemedicine" />
-        {/* <link rel="canonical" href="https://caryphysician.com/patient-resources" /> */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "MedicalWebPage",
-              "name": "Patient Portal & Health Access",
-              "mainEntity": {
-                "@type": "MedicalOrganization",
-                "name": "Your Health Clinic",
-                "url": "https://caryphysician.com/patient-portal",
-                "contactPoint": {
-                  "@type": "ContactPoint",
-                  "telephone": "+9192307439",
-                  "contactType": "customer support"
-                },
-                "serviceType": "Online Patient Portal",
-                "provider": {
-                  "@type": "MedicalOrganization",
-                  "name": "Your Health Clinic"
-                }
-              }
-            })
-          }}
-        />
-       
-      </Helmet>
+
     
       <div className="overflow-hidden ">
         <PatientPortal />

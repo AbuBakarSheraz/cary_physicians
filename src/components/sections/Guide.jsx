@@ -1,5 +1,4 @@
 import React from "react";
-import { Helmet } from "react-helmet";
 'use server';
 
 
@@ -25,30 +24,7 @@ export default function HealowSetupGuide() {
 
   return (
     <>
-    
-      <Helmet>
-        {/* <title>Set Up Healow App | Patient Portal Access in 4 Easy Steps</title> */}
-        <meta name="description" content="Set up the healow app in four easy steps to access your health records. Use our unique practice code GFAHDD to connect with our clinic." />
-        <meta name="keywords" content="healow app, patient portal, healthcare app, medical records, GFAHDD" />
-        <link rel="canonical" href="https://caryphysician.com/patient-resources/healow" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "HowTo",
-              "name": "How to Set Up the Healow Smartphone App",
-              "description": "Follow these four easy steps to set up the healow smartphone app and access your patient portal.",
-              "step": steps.map((step) => ({
-                "@type": "HowToStep",
-                "position": step.id,
-                "name": `Step ${step.id}`,
-                "text": step.description
-              }))
-            })
-          }}
-        />
-      </Helmet>
+
 
       <section className="bg-gradient-to-b  py-6">
         <div className="container px-6 mx-auto max-w-7xl">
