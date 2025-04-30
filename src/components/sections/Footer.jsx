@@ -63,7 +63,7 @@ export default function Footer() {
                 919 230 7439
               </a><br />
               <span className="font-semibold">Fax:</span>{" "}
-              <a href="fax:1 855 576 4929" className="text-emerald-300 hover:text-emerald-200 transition-colors">
+              <a href="fax:1 919 912 5442" className="text-emerald-300 hover:text-emerald-200 transition-colors">
                 1 855 576 4929
               </a><br />
               <span className="font-semibold">Email:</span>{" "}

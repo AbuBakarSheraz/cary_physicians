@@ -48,7 +48,7 @@ const ContactInfo = () => {
             <div>
               <h4 className="font-semibold">Fax:</h4>
               <p>
-                <a className="hover:underline" href="fax:18555764929">
+                <a className="hover:underline" href="fax:1 919 912 5442">
                   1 (855) 576-4929
                 </a>
               </p>
