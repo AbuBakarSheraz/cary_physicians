@@ -77,10 +77,10 @@ function Tcfadmin() {
 
   return (
     <div className="bg-white shadow rounded-lg p-6">
-      <h2 className="text-2xl font-bold mb-6">Medical Records Release Forms</h2>
+      <h2 className="text-2xl font-bold mb-6">Permission for Telehealth Forms</h2>
       
       {releaseForms.length === 0 ? (
-        <div className="text-gray-500 text-center py-8">No release forms found</div>
+        <div className="text-gray-500 text-center py-8">No Telehealth forms found</div>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
