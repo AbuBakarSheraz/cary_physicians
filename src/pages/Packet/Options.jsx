@@ -4,11 +4,11 @@ import { FileText, ChevronRight } from 'lucide-react';
 
 function Options() {
   const formOptions = [
-    {
-      title: "Notice For Privacy Practices",
-      instruction: "Click to Read Read Carefully",
-      path: "/privacy_policy"
-    },
+    // {
+    //   title: "Notice For Privacy Practices",
+    //   instruction: "Click to Read Read Carefully",
+    //   path: "/privacy_policy"
+    // },
     // {
     //   title: "Basic Information",
     //   instruction: "Fill The Form",
