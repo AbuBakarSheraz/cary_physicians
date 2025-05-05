@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import medicalReleaseRecordService from '../../../services/Medical_records_service';
+import Tcf_service from '../../services/Tcf_service';
 
-const BASE_URL = "https://www.caryphysicians.com/api/medical_records_db";
+const BASE_URL = "https://www.caryphysicians.com/api/medical_records_db/tcf";
 
-function RecordReleaseForms() {
+function Tcfadmin() {
   const [releaseForms, setReleaseForms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ function RecordReleaseForms() {
   const fetchRecords = async () => {
     try {
       setIsLoading(true);
-      const response = await medicalReleaseRecordService.fetchRecords();
+      const response = await Tcf_service.fetchRecords();
       if (response.success) {
         setReleaseForms(response.records);
       } else {
@@ -31,7 +31,7 @@ function RecordReleaseForms() {
   const handleDownload = (filePath, patientName) => {
     const link = document.createElement('a');
     link.href = `${BASE_URL}/${filePath}`;
-    link.setAttribute('download', `${patientName.replace(/\s+/g, '_')}_MedicalRelease.pdf`);
+    link.setAttribute('download', `${patientName.replace(/\s+/g, '_')}_Telehealth_form.pdf`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -40,7 +40,7 @@ function RecordReleaseForms() {
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this record?')) return;
 
-    const response = await medicalReleaseRecordService.deleteRecord(id);
+    const response = await Tcf_service.deleteRecord(id);
     if (response.success) {
       setReleaseForms((prevForms) => prevForms.filter((form) => form.id !== id));
     } else {
@@ -134,4 +134,4 @@ function RecordReleaseForms() {
   );
 }
 
-export default RecordReleaseForms;
+export default Tcfadmin;

@@ -4,11 +4,11 @@ import { FileText, ChevronRight } from 'lucide-react';
 
 function Options() {
   const formOptions = [
-    // {
-    //   title: "Notice For Privacy Practices",
-    //   instruction: "Just Read Carefully",
-    //   path: "/"
-    // },
+    {
+      title: "Notice For Privacy Practices",
+      instruction: "Click to Read Read Carefully",
+      path: "/privacy_policy"
+    },
     // {
     //   title: "Basic Information",
     //   instruction: "Fill The Form",
@@ -24,11 +24,11 @@ function Options() {
       instruction: "Fill The Form",
       path: "/Release_Medical_Record"
     },
-    // {
-    //   title: "Permission for Telehealth Visits",
-    //   instruction: "Read Carefully and Fill Form",
-    //   path: "/Telehealth_consent"
-    // },
+    {
+      title: "Permission for Telehealth Visits",
+      instruction: "Read Carefully and Fill Form",
+      path: "/Telehealth_consent"
+    },
 
     // {
     //   title: "Benefits Assignment and Financial Responsibility",

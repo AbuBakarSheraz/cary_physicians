@@ -81,11 +81,14 @@ export default function MedicalRecordsRelease() {
   ];
 
   const handleChange = (e) => {
+    console.log(e.target.value);
+    
     const { name, value, type, checked } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: type === 'checkbox'  ? checked : value
     }));
+
   };
 
   const clearSignature = () => {

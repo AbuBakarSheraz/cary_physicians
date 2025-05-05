@@ -7,7 +7,7 @@ import Home from './pages/Home.jsx';
 import ServicePage from './components/sections/ServicePage.jsx';
 import ServicesMain from './components/sections/ServiceMain.jsx';
 import ProtectedRoute from './auth/ProtectedRoute.jsx';
-import Admin from './pages/Admin.jsx';
+import Admin from './pages/admin/Admin.jsx';
 // import Loginadmin from './auth/Loginadmin.jsx'; // Import the Login component
 import Loginadmin from './auth/Loginadmin.jsx'; 
 import AppointmentsTable from './components/appointments/AppointmentsTable.jsx';
@@ -15,9 +15,12 @@ import AppointmentForm from './components/appointments/AppointmentForm.jsx';
 import Options from './pages/Packet/Options.jsx';
 import Practicefpform from './pages/Packet/InputForms/Practicefpform.jsx';
 import AdvanceBN  from './pages/Packet/InputForms/AdvanceBN.jsx';
-import Telehealth from './pages/Packet/InputForms/Telehealth.jsx';
+import Tcf from './pages/Packet/InputForms/Tcf.jsx';
 import ReleaseRecord from './pages/Packet/InputForms/RelaeseRecord.jsx'
-import RecordReleaseForms from './pages/Packet/Showforms/RecordReleaseForms.jsx';
+import RecordReleaseForms from './pages/admin/RecordReleaseForms.jsx';
+import Tcfadmin from './pages/admin/Tcfadmin.jsx';
+// import PrivacyPractice from './pages/Packet/Showforms/PrivacyNotice.jsx'
+
 
 const router = createBrowserRouter([
   {
@@ -34,9 +37,10 @@ const router = createBrowserRouter([
     element : <Options />,
   },
   {
-    path : "telehealth_consent",
-    element : <Telehealth />,
+    path : "Telehealth_consent",
+    element : <Tcf />,
   },
+
   {
     path : "Release_Medical_Record",
     element : <ReleaseRecord />,
@@ -76,6 +80,10 @@ const router = createBrowserRouter([
       {
         path : "record_release_forms",
         element : <RecordReleaseForms />,
+      },
+      {
+        path : "tcf",
+        element : <Tcfadmin />,
       },
   
     ]
