@@ -29,28 +29,45 @@ function HeroSection() {
           </h3>
           <h3 className="text-white mt-6 text-xl sm:text-2xl">Call: 919-230-7439</h3>
 
-          <div className="flex flex-col sm:flex-row gap-4 mt-6">
-            <Button 
-              variant="primary" 
-              onClick={() => window.open("https://mycw243.ecwcloud.com/portal28343/jsp/100mp/login_otp.jsp", "_blank")}
-              size="sm" 
-              className="py-3 w-full sm:w-1/2 hover:bg-red-500 transition-transform hover:scale-105 duration-300 linear"
-            >
-              Patient Portal Login
-            </Button>
-            <Link
-              to="/create-appointments"
-              className="px-4 py-2 w-full sm:w-1/2 hover:bg-red-500 rounded-lg font-semibold transition-transform hover:scale-105 duration-300 linear text-center text-base bg-blue-500 text-white"
-            > 
-              Request Appointment 
-            </Link>
-            <Link
-              to="/new-patient-packet"
-              className="px-4 py-2 w-full sm:w-1/2 hover:bg-red-500 rounded-lg font-semibold transition-transform hover:scale-105 duration-300 linear text-center text-base bg-blue-500 text-white"
-            > 
-              New Patient Packet
-            </Link>
-          </div>
+          <div className="grid grid-cols-1 mr-0 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 max-w-5xl mx-auto">
+  <Button 
+    variant="primary" 
+    onClick={() => window.open("https://mycw243.ecwcloud.com/portal28343/jsp/100mp/login_otp.jsp", "_blank")}
+    size="sm" 
+    className="py-3 w-full hover:bg-red-500 transition-transform hover:scale-105 duration-300 linear"
+  >
+    Patient Portal Login
+  </Button>
+
+  <Link
+    to="/create-appointments"
+    className="px-4 py-3 w-full hover:bg-red-500 rounded-lg font-semibold transition-transform hover:scale-105 duration-300 linear text-center text-base bg-blue-500 text-white"
+  > 
+    Request Appointment 
+  </Link>
+
+  <Link
+    to="/new-patient-packet"
+    className="px-4 py-3 w-full hover:bg-red-500 rounded-lg font-semibold transition-transform hover:scale-105 duration-300 linear text-center text-base bg-blue-500 text-white"
+  > 
+    New Patient Packet
+  </Link>
+
+  <Link
+    to="/uploadId"
+    className="px-4 py-3 w-full hover:bg-red-500 rounded-lg font-semibold transition-transform hover:scale-105 duration-300 linear text-center text-base bg-blue-500 text-white"
+  > 
+    Upload ID Card
+  </Link>
+
+  {/* <Link
+    to="/upload-insurance-card"
+    className="px-4 py-3 w-full hover:bg-red-500 rounded-lg font-semibold transition-transform hover:scale-105 duration-300 linear text-center text-base bg-blue-500 text-white"
+  > 
+    Upload Insurance Card
+  </Link> */}
+</div>
+
         </div>
       </div>
       <div className="bg-gray-200 p-3 flex">

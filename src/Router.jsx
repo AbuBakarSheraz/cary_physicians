@@ -19,6 +19,9 @@ import Tcf from './pages/Packet/InputForms/Tcf.jsx';
 import ReleaseRecord from './pages/Packet/InputForms/RelaeseRecord.jsx'
 import RecordReleaseForms from './pages/admin/RecordReleaseForms.jsx';
 import Tcfadmin from './pages/admin/Tcfadmin.jsx';
+import UploadID from './components/upload/IdUpload.jsx';
+import UploadInsurance from './components/upload/UploadInsurance.jsx';
+import Showids from './pages/admin/Showids.jsx';
 // import PrivacyPractice from './pages/Packet/Showforms/PrivacyNotice.jsx'
 
 
@@ -48,6 +51,15 @@ const router = createBrowserRouter([
   {
     path: "/app",
     element: <App />,
+  },
+    {
+    path: "/uploadId",
+    element: <UploadID />,
+  },
+    
+  {
+    path: "/upload-insurance-card",
+    element: <UploadInsurance />,
   },
   {
     path: "/login",
@@ -85,6 +97,12 @@ const router = createBrowserRouter([
         path : "tcf",
         element : <Tcfadmin />,
       },
+       {
+        path : "show-ids",
+        element : <Showids />,
+      },
+     
+
   
     ]
   },

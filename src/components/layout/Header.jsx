@@ -267,6 +267,8 @@ export default function Header({ aboutref, providerref, appref, haref }) {
               >
                 Request Appointment
               </Link>
+                
+                
             </div>
             
             {/* Mobile Menu Button */}
@@ -395,6 +397,12 @@ export default function Header({ aboutref, providerref, appref, haref }) {
   >
     Request Appointment
   </Link>
+  <Link
+    to="/uploadId"
+    className="px-4 py-3 w-full hover:bg-red-500 rounded-lg font-semibold transition-transform hover:scale-105 duration-300 linear text-center text-base bg-blue-500 text-white"
+    > 
+    Upload ID Card
+    </Link>
 </div>
 
           </div>
