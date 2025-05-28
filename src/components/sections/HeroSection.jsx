@@ -27,10 +27,14 @@ function HeroSection() {
           >
             Dedicated to providing comprehensive primary care services for individuals and families in our community.
           </h3>
-           <a href="tel:919 230 7439" className="text-white mt-6 text-xl sm:text-2xl">
-                919 230 7439
-              </a>
-          {/* <h3 className="text-white mt-6 text-xl sm:text-2xl">Call: 919-230-7439</h3> */}
+                   
+          <h3 className="text-white mt-6 text-xl sm:text-2xl">
+  Call: <a href="tel:9192307439" className="underline hover:text-gray-300">919 230 7439</a>
+</h3>
+
+
+          
+              ///
 
           <div className="grid grid-cols-1 mr-0 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 max-w-5xl mx-auto">
   <Button 
