@@ -5,6 +5,7 @@ import RecordReleaseForms from './RecordReleaseForms';
 import Showids from './Showids';
 // import Tcf from '../Packet/InputForms/Tcf';
 import Tcfadmin from './Tcfadmin';
+import ShowInsurance from './ShowInsurance';
 
 
 const Admin = () => {
@@ -117,6 +118,8 @@ const Admin = () => {
           <Route path="/record_release_forms" element={<RecordReleaseForms />} />
           <Route path="/tcf" element={<Tcfadmin />} />
           <Route path="/show-ids" element={<Showids />} />
+          <Route path="/insurance-cards" element={<ShowInsurance />} />
+
 
 
         </Routes>

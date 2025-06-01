@@ -22,6 +22,7 @@ import Tcfadmin from './pages/admin/Tcfadmin.jsx';
 import UploadID from './components/upload/IdUpload.jsx';
 import UploadInsurance from './components/upload/UploadInsurance.jsx';
 import Showids from './pages/admin/Showids.jsx';
+import ShowInsurance from './pages/admin/ShowInsurance.jsx'
 // import PrivacyPractice from './pages/Packet/Showforms/PrivacyNotice.jsx'
 
 
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
       },
        {
         path : "show-ids",
+        element : <Showids />,
+      },
+      {
+        path : "insurance-cards",
         element : <Showids />,
       },
      

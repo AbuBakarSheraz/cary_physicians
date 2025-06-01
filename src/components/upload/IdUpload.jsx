@@ -521,7 +521,7 @@ const sendImagesToBackend = () => {
             <p>• Make sure your ID is well-lit and all text is clearly visible</p>
             <p>• Hold your phone steady when taking photos</p>
             <p>• If you need assistance, please ask our front desk staff</p>
-            <p>• Contact us at: <span className="font-medium text-blue-600">(555) 123-4567</span></p>
+            <p>• Contact us at: <span className="font-medium text-blue-600">919 230 7439</span></p>
           </div>
         </div>
       </div>

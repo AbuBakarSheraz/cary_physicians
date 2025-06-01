@@ -61,7 +61,8 @@ export default function Footer() {
               <span className="font-semibold">Phone:</span>{" "}
               <a href="tel:919 230 7439" className="text-emerald-300 hover:text-emerald-200 transition-colors">
                 919 230 7439
-              </a><br />
+              </a>
+              <br />
               <span className="font-semibold">Fax:</span>{" "}
               <a href="fax:1 919 912 5442" className="text-emerald-300 hover:text-emerald-200 transition-colors">
               1 919 912 5442              </a><br />

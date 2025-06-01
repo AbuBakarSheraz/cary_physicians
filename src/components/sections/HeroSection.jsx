@@ -67,12 +67,12 @@ function HeroSection() {
     Upload ID Card
   </Link>
 
-  {/* <Link
+  <Link
     to="/upload-insurance-card"
     className="px-4 py-3 w-full hover:bg-red-500 rounded-lg font-semibold transition-transform hover:scale-105 duration-300 linear text-center text-base bg-blue-500 text-white"
   > 
     Upload Insurance Card
-  </Link> */}
+  </Link>
 </div>
 
         </div>
