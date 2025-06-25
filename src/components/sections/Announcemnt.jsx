@@ -18,7 +18,7 @@ function Announcement() {
   return (
     <>
       {showPopup && (
-         <div className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center">
+         <div className="fixed inset-0 bg-none bg-opacity-40 z-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-xl shadow-2xl max-w-md w-[90%] text-center">
             <h1 className="text-2xl font-bold mb-2 text-blue-600">📢 Announcement</h1>
             <h2 className="text-lg font-semibold mb-1 text-gray-800">
