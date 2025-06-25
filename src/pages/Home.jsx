@@ -9,6 +9,7 @@ import Patienttools from '../components/sections/Patienttools';
 import Faqs from '../components/sections/Faqs';
 import HeroSection from '../components/sections/HeroSection';
 import Goto from '../components/sections/Goto';
+import Announcement from '../components/sections/Announcemnt';
 'use server';
 
 
@@ -18,6 +19,7 @@ const Home = () => {
 
   return (
     <>
+    <Announcement />
     <HeroSection />
     {/* <Goto /> */}
       <div ref={aboutref}>
