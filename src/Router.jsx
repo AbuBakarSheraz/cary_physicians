@@ -50,7 +50,7 @@ const router = createBrowserRouter([
     element : <ReleaseRecord />,
   },
   {
-    path: "/app",
+    path: "",
     element: <App />,
   },
     {

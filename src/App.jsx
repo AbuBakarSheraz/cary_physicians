@@ -10,6 +10,8 @@ import Guide from './components/sections/Guide.jsx';
 import Patienttools from './components/sections/Patienttools.jsx';
 import Faqs from './components/sections/Faqs.jsx';
 import Footer from './components/sections/Footer.jsx';
+import Testimonials  from './components/sections/Testimonials.jsx';
+import Test from './components/sections/Test.jsx';
 'use server';
 
 
@@ -29,7 +31,8 @@ function App() {
            </div>
 
            <div ref={providerref}><AboutProvider /></div>
-           <InsuranceList />
+           <InsuranceList />   
+           <Testimonials />     
 
            <div ref={haref}>
            <HealthSections />

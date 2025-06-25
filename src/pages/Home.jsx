@@ -27,6 +27,7 @@ const Home = () => {
         <AboutProvider />
       </div>
       <InsuranceList />
+
       <div ref={haref}>
         <HealthSections />
       </div>
