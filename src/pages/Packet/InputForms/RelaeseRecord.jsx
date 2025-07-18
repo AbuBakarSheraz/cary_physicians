@@ -462,48 +462,367 @@ pdf.text(formData.date, pageWidth - margin - 28, y);
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!formData.firstName || !formData.lastName) {
-      alert("Please enter patient name.");
-      return;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (!formData.firstName || !formData.lastName) {
+    alert("Please enter patient name.");
+    return;
+  }
+  
+  try {
+    setIsSubmitting(true);
+
+    // Generate the PDF and get the file (but don't download yet)
+    const pdfFile = generatePDFForSubmission();
+    if (!pdfFile) {
+      throw new Error("Failed to generate PDF file");
     }
     
-    // if (!saveSignature()) {
-    //   return;
-    // }
+    // Create form data for submission
+    const submissionData = new FormData();
+    submissionData.append("patient_name", `${formData.firstName} ${formData.lastName}`);
+    submissionData.append("pdf_file", pdfFile);
     
-    try {
-      setIsSubmitting(true);
+    // Submit to server FIRST
+    const result = await medicalReleaseRecordService.uploadRecord(submissionData);
+    console.log("Upload result:", result);
+    
+    // Only after successful submission, download the PDF
+    downloadPDF();
+    
+    setShowSuccessModal(true);
+    setShowPreview(false);
 
-      // Generate the PDF and get the file
-      const pdfFile = generatePDF();
-      if (!pdfFile) {
-        throw new Error("Failed to generate PDF file");
+  } catch (error) {
+    console.error("Error during submission:", error);
+    alert("There was an error submitting the form: " + error.message);
+  } finally {
+    setIsSubmitting(false);
+    resetForm();
+  }
+};
+
+// Separate function to generate PDF without downloading
+const generatePDFForSubmission = () => {
+  try {
+    // Create a new PDF document
+    const pdf = new jsPDF('p', 'mm', 'letter');
+    
+    // Set page dimensions
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const margin = 15;
+    const contentWidth = pageWidth - (margin * 2);
+    
+    // Function to add header and footer
+    const addHeaderFooter = () => {
+      // Header with logo and title
+      if (logoImage) {
+        pdf.addImage(logoImage, 'PNG', margin, 7, 9, 24);
       }
       
-      // Create form data for submission
-      const submissionData = new FormData();
-      submissionData.append("patient_name", `${formData.firstName} ${formData.lastName}`);
-      submissionData.append("pdf_file", pdfFile);
+      // Right-aligned header text
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text("Cary Physicians Primary Care PLLC", margin + 10, 15);
       
-      // Submit to server
-      const result = await medicalReleaseRecordService.uploadRecord(submissionData);
-      console.log("Upload result:", result);
-      setShowSuccessModal(true);
-      setShowPreview(false);
+      // Title
+      pdf.setFontSize(12);
+      pdf.setTextColor(128, 0, 128);
+      pdf.text("Authorization for Release of Medical Records", pageWidth / 2, 25, { align: 'center' });
+      pdf.setTextColor(0, 0, 0);
+      
+      // Footer
+      pdf.setFontSize(6);
+      pdf.text("Cary Physicians Primary Care PLLC, 115 Parkway Office Court, Suite 104", 14, pageHeight - 7);
+    };
+    
+    // Add header and footer
+    addHeaderFooter();
+    
+    // Start content
+    let y = 32;
+    
+    // Add date field
+    pdf.setFontSize(10);
+    pdf.setFont('', 'bold');
+    pdf.text("Date:", pageWidth - margin - 40, y);
+    pdf.setFont('helvetica', 'normal');
+    pdf.line(pageWidth - margin - 30, y + 1, pageWidth - margin, y + 1);
+    pdf.text(formData.date, pageWidth - margin - 28, y);
+    
+    // REQUEST FROM and TO sections
+    y += 8;
+    
+    const colWidth = (contentWidth - 10) / 2;
+    let leftCol = margin;
+    let rightCol = margin + colWidth + 10;
+    
+    // Left column - REQUEST FROM
+    pdf.setFont('','bolditalic');
+    pdf.text("REQUEST FROM:", leftCol, y);
+    pdf.setFont('helvetica', 'italic');
+    y += 5;
+    
+    pdf.setFont('','bold');
+    pdf.text("Requesting Facility:", leftCol, y);
+    pdf.setFont('', 'normal');
+    pdf.text("Cary Physicians Primary Care", leftCol + 40, y);
+    y += 5;
+    
+    pdf.setFont('','bold');
+    pdf.text("Provider:", leftCol, y);
+    pdf.setFont('', 'normal');
+    pdf.text("Dr. Muhammad Ghani", leftCol + 38, y);
+    y += 5;
+    
+    pdf.setFont('','bold');
+    pdf.text("Address:", leftCol, y);
+    pdf.setFont('', 'normal');
+    pdf.text("115 Parkway Office Court, Suite 104", leftCol + 38, y);
+    y += 5;
+    
+    pdf.setFont('','bold');
+    pdf.text("Telephone:", leftCol, y);
+    pdf.setFont('', 'normal');
+    pdf.text("(919) 230-7439", leftCol + 38, y);
+    y += 5;
+    
+    pdf.setFont('','bold');
+    pdf.text("Fax Number:", leftCol, y);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text("(919) 912-5442", leftCol + 38, y);
+    y += 5;
+    
+    pdf.setFont('','bold');
+    pdf.text("Email Address:", leftCol, y);
+    pdf.setFont('', 'italic');
+    pdf.text("office@caryphysicians.com", leftCol + 38, y);
+    
+    // Reset y to start of right column
+    y = 40;
+    
+    // Right column - TO
+    pdf.setFont('', 'bolditalic');
+    pdf.text("TO:", rightCol, y);
+    pdf.setFont('helvetica', 'italic');
+    y += 5;
+    
+    pdf.setFont('', 'bold');
+    pdf.text("Recipient Facility:", rightCol, y);
+    pdf.setFont('', 'normal');
+    pdf.text(formData.recipientFacility || "", rightCol + 38, y);
+    y += 5;
+    
+    pdf.setFont('', 'bold');
+    pdf.text("Recipient Provider:", rightCol, y);
+    pdf.setFont('', 'normal');
+    pdf.text(formData.recipientProvider || "", rightCol + 38, y);
+    y += 5;
+    
+    pdf.setFont('', 'bold');
+    pdf.text("Address:", rightCol, y);
+    
+    pdf.setFont('', 'normal');
+    const wrappedAddress = pdf.splitTextToSize(formData.recipientAddress || "", 72);
+    pdf.text(wrappedAddress, rightCol + 38, y);
+    
+    y += wrappedAddress.length * 5;
+    
+    pdf.setFont('', 'bold');
+    pdf.text("Telephone:", rightCol, y);
+    pdf.setFont('', 'normal');
+    pdf.text(formData.recipientTelephone || "", rightCol + 38, y);
+    y += 5;
+    
+    pdf.setFont('', 'bold');
+    pdf.text("Fax Number:", rightCol, y);
+    pdf.setFont('', 'normal');
+    pdf.text(formData.recipientFaxNumber || "", rightCol + 38, y);
+    y += 5;
+    
+    pdf.setFont('', 'bold');
+    pdf.text("Email Address:", rightCol, y);
+    pdf.setFont('', 'normal');
+    pdf.text(formData.recipientEmail || "", rightCol + 38, y);
+    
+    // Patient Information section
+    y = 85;
+    pdf.setFont('italic');
+    pdf.text("Patient Information:", margin, y);
+    pdf.setFont('normal');
+    y += 8;
+    
+    pdf.setFontSize(10);
+    pdf.text(formData.lastName || "", margin + 5, y + 10);
+    pdf.text(formData.firstName || "", margin + (contentWidth / 3) + 5, y + 10);
+    pdf.text(formData.dob || "", margin + (contentWidth * 2 / 3) + 5, y + 10);
 
-    } catch (error) {
-      console.error("Error during submission:", error);
-      alert("There was an error submitting the form: " + error.message);
-    }finally {
-      setIsSubmitting(false);
-      resetForm();
+    pdf.setFontSize(8);
+    pdf.text("Last name", margin + 5, y + 5);
+    pdf.text("First name", margin + (contentWidth / 3) + 5, y + 5);
+    pdf.text("DOB", margin + (contentWidth * 2 / 3) + 5, y + 5);
+    
+    pdf.setFontSize(8);
+    pdf.text("Address", margin + 5, y + 15);
+    pdf.text("MRN", margin + (contentWidth * 2 / 3) + 5, y + 15);      
+    pdf.setFontSize(10);
+    pdf.text(formData.address || "", margin + 5, y + 20);
+    pdf.text(formData.mrn || "", margin + (contentWidth * 2 / 3) + 5, y + 20);
+    
+    y += 30;
+    
+    // Authorization text
+    pdf.setFontSize(10);
 
-
+    if (formData.dateFrom && formData.dateTo) {
+      pdf.text("I authorize Cary Physicians Primary Care to obtain any information about my health and health care, including", margin, y);
+      y += 5;
+      pdf.text("the diagnosis, treatment, or examination rendered to me during the period from:", margin, y);
+      y += 6;
+      pdf.text(formData.dateFrom || "_________________", margin + 60, y);
+      pdf.text("to", margin + 100, y);
+      pdf.text(formData.dateTo || "_________________", margin + 115, y);
+      y += 10;
+    } else if (formData.year) {
+      pdf.setFontSize(10);
+      pdf.setFont("helvetica", "normal");
+      pdf.text("I authorize Cary Physicians Primary Care to obtain any information about my health and health care, including", margin, y);
+      y += 5;
+      
+      const line2 = "the diagnosis, treatment, or examination rendered to me during ";
+      pdf.text(line2, margin, y);
+      
+      const textWidth = pdf.getTextWidth(line2);
+      pdf.setFont("helvetica", "bold");
+      pdf.text(formData.year || "_________________", margin + textWidth, y);
+      
+      y += 10;
+      pdf.setFont("helvetica", "normal");
     }
-  };
+    
+    // Authorization boxes
+    pdf.text("I expressly authorize and consent to the disclosure of my health information related to (check all that apply):", margin, y);
+    y += 8;
+    
+    const checkboxSize = 3.5;
+    const checkboxTextIndent = 7;
+    
+    // Row 1
+    pdf.rect(margin, y, checkboxSize, checkboxSize);
+    if (formData.officeVisits) {
+      pdf.setFillColor(0, 0, 0);
+      pdf.rect(margin, y, checkboxSize, checkboxSize, 'F');
+    }
+    pdf.text("Office Visits: [one annual visit (of last year), last three regular visits]", margin + checkboxTextIndent, y + 3);
+    y += 7;
+    
+    // Row 2
+    pdf.rect(margin, y, checkboxSize, checkboxSize);
+    if (formData.labs) {
+      pdf.setFillColor(0, 0, 0);
+      pdf.rect(margin, y, checkboxSize, checkboxSize, 'F');
+    }
+    pdf.text("Labs: [of last two years]", margin + checkboxTextIndent, y + 3);
+    y += 7;
+    
+    // Row 3
+    pdf.rect(margin, y, checkboxSize, checkboxSize);
+    if (formData.diagnosticsImaging) {
+      pdf.setFillColor(0, 0, 0);
+      pdf.rect(margin, y, checkboxSize, checkboxSize, 'F');
+    }
+    pdf.text("Diagnostics and Imaging: [All Records]", margin + checkboxTextIndent, y + 3);
+    y += 7;
+    
+    // Row 4
+    pdf.rect(margin, y, checkboxSize, checkboxSize);
+    if (formData.proceduresOperations) {
+      pdf.setFillColor(0, 0, 0);
+      pdf.rect(margin, y, checkboxSize, checkboxSize, 'F');
+    }
+    pdf.text("Procedures/ Operations: [All Records]", margin + checkboxTextIndent, y + 3);
+    y += 7;
+    
+    // Row 5
+    pdf.rect(margin, y, checkboxSize, checkboxSize);
+    if (formData.mentalHealth) {
+      pdf.setFillColor(0, 0, 0);
+      pdf.rect(margin, y, checkboxSize, checkboxSize, 'F');
+    }
+    pdf.text("Mental health/counseling, Alcohol and substance use, STIs including HIV/AIDS, Genetic testing/counseling:", margin + checkboxTextIndent, y + 3);
+    y += 4;
+    pdf.text("[last three visits]", margin + checkboxTextIndent, y + 3);
+    y += 10;
+    
+    // Confidentiality policy
+    pdf.setFontSize(9);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text("CONFIDENTIALITY POLICY (PLEASE READ BEFORE SIGNING)", pageWidth / 2, y, { align: 'center' });
+    y += 6;
+    
+    pdf.setFontSize(8);
+    pdf.setFont('helvetica', 'normal');
+    const policyText = "Medical records are maintained to serve the patient and the health care team in accordance with all applicable legal and regulatory requirements. The information contained in medical records is considered highly confidential. All patient care information shall be regarded as confidential and available only to authorized users. The phrase \"medical records\" includes any protected health information (PHI), which includes test results, any medical reports, the medical record itself, claim files, and any correspondence relating to the care of a patient. Any disclosure of my protected health information to a different name, class of person, address or fax number will require a separate authorization. I have the right to revoke this authorization in writing, except to the extent that action has already been taken in reliance on this authorization. For the revocation of this authorization to be effective, the above name(s) or class of person(s) must receive the revocation in writing. This authorization shall expire one year from the date signed. After one year, a new authorization form is needed to continually disclose my PHI. I understand this authorization is voluntary and may refuse to sign it. I fully understand and accept the terms of this authorization. A copy of this authorization is valid as an original.";
+    const policyLines = pdf.splitTextToSize(policyText, contentWidth);
+    pdf.text(policyLines, margin, y);
+    y += policyLines.length * 3 + 10;
+    
+    // Signature section
+    pdf.setFontSize(9);
+    pdf.setFont('helvetica', 'bold');
+    pdf.text("Patient or authorized representative signature:", margin, y);
+    pdf.text("Date:", margin + 130, y);
+    pdf.setFont('helvetica', 'normal');
+
+    // Add signature image
+    if (signature) {
+      pdf.addImage(signature, 'PNG', margin, y + 2, 45, 15);
+    }
+    
+    // Add date
+    pdf.text(formData.date, margin + 130, y + 7);
+    
+    y += 20;
+    pdf.setFont('helvetica', 'bold');
+    pdf.text("Patient or authorized representative name:", margin, y);
+    y += 5;
+    pdf.setFont('helvetica', 'normal');
+    pdf.text(`${formData.firstName} ${formData.lastName}`, margin, y);
+    
+    // Convert the PDF to a Blob and return it as a File
+    const fileName = `Medical-Records-Release-${formData.lastName}-${formData.firstName}.pdf`;
+    const pdfBlob = pdf.output('blob');
+    
+    // Store PDF for later download
+    window.generatedPDF = pdf;
+    window.generatedFileName = fileName;
+    
+    return new File([pdfBlob], fileName, { type: 'application/pdf' });
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+    alert("There was an error generating the PDF. Please try again.");
+    return null;
+  }
+};
+
+// Separate function to download the PDF
+const downloadPDF = () => {
+  try {
+    if (window.generatedPDF && window.generatedFileName) {
+      // Small delay to ensure form submission is complete
+      setTimeout(() => {
+        window.generatedPDF.save(window.generatedFileName);
+        // Clean up
+        window.generatedPDF = null;
+        window.generatedFileName = null;
+      }, 500);
+    }
+  } catch (error) {
+    console.error("Error downloading PDF:", error);
+  }
+};
   
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
