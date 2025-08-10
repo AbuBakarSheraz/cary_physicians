@@ -19,7 +19,7 @@ const Home = () => {
 
   return (
     <>
-    <Announcement />
+    {/* <Announcement /> */}
     <HeroSection />
     {/* <Goto /> */}
       <div ref={aboutref}>

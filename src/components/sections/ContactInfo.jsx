@@ -72,12 +72,12 @@ const ContactInfo = () => {
             <table className="w-full text-sm">
               <tbody>
                 {[
-                  { day: "Monday", hours: "9:00 AM - 12:00 PM" },
-                  { day: "Tuesday", hours: "9:00 AM - 12:00 PM" },
-                  { day: "Wednesday", hours: "9:00 AM - 12:00 PM" },
-                  { day: "Thursday", hours: "9:00 AM - 12:00 PM" },
-                  { day: "Friday", hours: "9:00 AM - 12:00 PM" },
-                  { day: "Saturday", hours: "Closed", special: true },
+                  { day: "Monday", hours: "9:00 AM - 5:00 PM" },
+                  { day: "Tuesday", hours: "9:00 AM - 5:00 PM" },
+                  { day: "Wednesday", hours: "9:00 AM - 5:00 PM" },
+                  { day: "Thursday", hours: "9:00 AM - 5:00 PM" },
+                  { day: "Friday", hours: "9:00 AM - 5:00 PM" },
+                  { day: "Saturday", hours: "10:00 AM - 2:00 PM", special: true },
                   { day: "Sunday", hours: "Closed", special: true }
                 ].map(({ day, hours, special }) => (
                   <tr key={day}>
